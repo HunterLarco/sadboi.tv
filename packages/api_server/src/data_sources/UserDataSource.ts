@@ -4,16 +4,23 @@ import DataLoader from 'dataloader';
 import { GraphQLError } from 'graphql';
 import pickRandom from 'pick-random';
 
+import GlobalAtomicCounters from '@/data_sources/GlobalAtomicCounters';
+import { psuedoRandomId } from '@/util/math/psuedo_random_id';
+
 export default class UserDataSource {
   #prismaClient: PrismaClient;
+  #counters: GlobalAtomicCounters;
 
   constructor(args: { prismaClient: PrismaClient }) {
     const { prismaClient } = args;
     this.#prismaClient = prismaClient;
+    this.#counters = new GlobalAtomicCounters({ prismaClient });
   }
 
   async createAnonymousUser(): Promise<User> {
-    const name = `sadboi_${Math.random()}`;
+    const totalUsers = await this.#counters.incrementCounter('TotalUsers');
+    const id = psuedoRandomId({ seed: totalUsers, minBound: 100000 });
+    const name = `sadboi_${id}`;
     const availableColors = [
       UserHandleColor.Green,
       UserHandleColor.Turquoise,
@@ -28,6 +35,7 @@ export default class UserDataSource {
 
     return await this.#prismaClient.user.create({
       data: {
+        id: id.toString(),
         handle: {
           name,
           selectedColor,
