@@ -1,4 +1,5 @@
 import type { GlobalContext } from '@/GlobalContext';
+import AuthTokenDataSource from '@/data_sources/AuthTokenDataSource';
 import MessageHistoryDataSource from '@/data_sources/MessageHistoryDataSource';
 import MessageLogPubSub from '@/data_sources/MessageLogPubSub';
 import UserDataSource from '@/data_sources/UserDataSource';
@@ -6,6 +7,7 @@ import UserDataSource from '@/data_sources/UserDataSource';
 type DataSources = {
   MessageHistory: MessageHistoryDataSource;
   MessageLogPubSub: MessageLogPubSub;
+  AuthToken: AuthTokenDataSource;
   User: UserDataSource;
 };
 
@@ -22,6 +24,7 @@ export async function createRequestContext(args: {
   const { globalContext, authorization } = args;
 
   const dataSources: DataSources = {
+    AuthToken: new AuthTokenDataSource({ prismaClient: globalContext.prisma }),
     MessageHistory: new MessageHistoryDataSource({
       prismaClient: globalContext.prisma,
     }),

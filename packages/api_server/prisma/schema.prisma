@@ -40,6 +40,33 @@ enum UserBadge {
   SadBot
 }
 
+/// AuthToken
+
+model AuthToken {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  scopes AuthScope[]
+
+  // If not set, the token never expires.
+  expiry DateTime?
+
+  dateIssued DateTime @default(now())
+}
+
+type AuthScope {
+  code AuthScopeCode
+
+  // Optional foreign key designating a target for the scope. For example, if
+  // this scope provides DOCUMENT_EDITING permissions, the target might be a
+  // document key--whereas for a PASSWORD_RESET permission, the target might be
+  // a user key.
+  target String
+}
+
+enum AuthScopeCode {
+  UserAuth // target is the userId
+}
+
 /// Counters
 
 model Counters {
