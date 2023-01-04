@@ -1,0 +1,27 @@
+{
+  "name": "ping-pong",
+  "version": "1.0.0",
+  "description": "Server + Web Frontend boilerplate",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HunterLarco/ping-pong.git"
+  },
+  "scripts": {
+    "initialize": "npm install && npm run clean && lerna bootstrap --hoist",
+    "clean": "lerna clean --yes && lerna exec -- rm -rf dist generated",
+    "refresh": "lerna bootstrap --hoist",
+    "dev": "lerna run dev --stream",
+    "build": "lerna run build",
+    "lint": "lerna run lint --parallel",
+    "lint:fix": "lerna run lint:fix --parallel"
+  },
+  "author": "Hunter John Larco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HunterLarco/ping-pong/issues"
+  },
+  "homepage": "https://github.com/HunterLarco/ping-pong#readme",
+  "devDependencies": {
+    "lerna": "6.0.3"
+  }
+}
