@@ -1,3 +1,6 @@
+import { AuthScopeCode } from '@prisma/client';
+import type { User } from '@prisma/client';
+
 import type { GlobalContext } from '@/GlobalContext';
 import AuthTokenDataSource from '@/data_sources/AuthTokenDataSource';
 import MessageHistoryDataSource from '@/data_sources/MessageHistoryDataSource';
@@ -12,7 +15,7 @@ type DataSources = {
 };
 
 export type RequestContext = {
-  actor: null;
+  actor: User | null;
   dataSources: DataSources;
   globalContext: GlobalContext;
 };
@@ -44,7 +47,19 @@ export async function createRequestContext(args: {
 async function getActor(
   dataSources: DataSources,
   authorization: string | null
-): Promise<null> {
-  // Any user auth would occur here.
-  return null;
+): Promise<User | null> {
+  if (!authorization) {
+    return null;
+  }
+
+  try {
+    const [userId] = await dataSources.AuthToken.use({
+      id: authorization,
+      requiredScopeCodes: [AuthScopeCode.UserAuth],
+    });
+
+    return await dataSources.User.getById(userId);
+  } catch {
+    return null;
+  }
 }
