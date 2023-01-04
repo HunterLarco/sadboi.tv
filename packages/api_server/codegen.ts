@@ -4,6 +4,9 @@ const kMappers = {
   MessageLog: '@prisma/client#MessageHistory as MessageHistoryModel',
   User: '@prisma/client#User as UserModel',
   Viewer: '@prisma/client#User as UserModel',
+  UserHandle: '@prisma/client#UserHandle as UserHandleModel',
+  UserHandleColor: '@prisma/client#UserHandleColor as UserHandleColorModel',
+  UserBadge: '@prisma/client#UserBadge as UserBadgeModel',
 };
 
 const kResolverConfig = {

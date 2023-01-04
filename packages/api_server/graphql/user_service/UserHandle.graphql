@@ -1,7 +1,7 @@
 type UserHandle {
   name: String!
   color: UserHandleColor!
-  badges: [UserBadge]!
+  badges: [UserBadge!]!
 }
 
 type UserHandleSettings {

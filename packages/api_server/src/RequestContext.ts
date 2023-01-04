@@ -1,10 +1,12 @@
 import type { GlobalContext } from '@/GlobalContext';
 import MessageHistoryDataSource from '@/data_sources/MessageHistoryDataSource';
 import MessageLogPubSub from '@/data_sources/MessageLogPubSub';
+import UserDataSource from '@/data_sources/UserDataSource';
 
 type DataSources = {
   MessageHistory: MessageHistoryDataSource;
   MessageLogPubSub: MessageLogPubSub;
+  User: UserDataSource;
 };
 
 export type RequestContext = {
@@ -24,6 +26,9 @@ export async function createRequestContext(args: {
       prismaClient: globalContext.prisma,
     }),
     MessageLogPubSub: new MessageLogPubSub(),
+    User: new UserDataSource({
+      prismaClient: globalContext.prisma,
+    }),
   };
 
   return {
