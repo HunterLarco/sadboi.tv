@@ -1,0 +1,14 @@
+#import 'UserHandle.graphql'
+
+type User {
+  id: ID!
+  handle: UserHandle!
+  dateCreated: DateTime!
+
+  """
+  A helpful flag to indicate if this user is the same as the current viewer.
+  """
+  isViewer: Boolean!
+}
+
+scalar DateTime

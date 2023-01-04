@@ -1,0 +1,36 @@
+#import 'User.graphql'
+#import 'UserHandle.graphql'
+#import 'Viewer.graphql'
+
+type Query {
+  """
+  Uses the "Authorization" header to return the current user's data.
+  """
+  viewer: Viewer
+
+  """
+  Retrieves user records by their ID. May return null if the user does not
+  exist.
+  """
+  userById(id: ID!): User
+}
+
+type Mutation {
+  """
+  Creates a new user. Clients will need to later attach credentials (phone
+  number or email) to be able to recover this user if logged out.
+  """
+  createUser: CreateUserResponse!
+
+  setUserHandleColor(color: UserHandleColor!): Void
+  setUserHandleName(name: String!): Void
+}
+
+### createUser
+
+type CreateUserResponse {
+  user: Viewer!
+  deviceToken: ID!
+}
+
+scalar Void

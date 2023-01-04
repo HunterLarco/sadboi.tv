@@ -1,0 +1,10 @@
+#import 'UserHandle.graphql'
+
+type Viewer {
+  id: ID!
+  handle: UserHandle!
+  handleSettings: UserHandleSettings!
+  dateCreated: DateTime!
+}
+
+scalar DateTime

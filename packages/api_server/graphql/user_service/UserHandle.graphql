@@ -1,0 +1,32 @@
+type UserHandle {
+  name: String!
+  color: UserHandleColor!
+  badges: [UserBadge]!
+}
+
+type UserHandleSettings {
+  availableColors: [UserHandleColor!]!
+  availableBadges: [UserBadge!]!
+}
+
+enum UserHandleColor {
+  Unknown
+  Green
+  Turquoise
+  Lavender
+  Violet
+  Pink
+  Red
+  Orange
+  Yellow
+
+  # A special sadbot-only color + style.
+  SadBot
+}
+
+enum UserBadge {
+  Unknown
+
+  # A special sadbot-only badge.
+  SadBot
+}

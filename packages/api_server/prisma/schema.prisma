@@ -1,3 +1,45 @@
+/// User
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  handle UserHandle
+
+  dateCreated DateTime @default(now())
+}
+
+type UserHandle {
+  name String
+
+  selectedColor UserHandleColor
+  availableColors UserHandleColor[]
+
+  selectedBadges UserBadge[]
+  availableBadges UserBadge[]
+}
+
+enum UserHandleColor {
+  Unknown
+  Green
+  Turquoise
+  Lavender
+  Violet
+  Pink
+  Red
+  Orange
+  Yellow
+
+  // A special sadbot-only color + style.
+  SadBot
+}
+
+enum UserBadge {
+  Unknown
+
+  // A special sadbot-only badge.
+  SadBot
+}
+
 /// MessageHistory
 
 model MessageHistory {
