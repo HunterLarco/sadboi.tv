@@ -1,4 +1,4 @@
-import type { PrismaClient, User } from '@prisma/client';
+import type { Prisma, PrismaClient, User } from '@prisma/client';
 import { UserHandleColor } from '@prisma/client';
 import DataLoader from 'dataloader';
 import { GraphQLError } from 'graphql';
@@ -42,6 +42,42 @@ export default class UserDataSource {
           availableColors,
           selectedBadges: [],
           availableBadges: [],
+        },
+      },
+    });
+  }
+
+  async updateUserHandle(args: {
+    id: string;
+    name?: string;
+    color?: UserHandleColor;
+  }): Promise<User> {
+    const { id, name, color } = args;
+
+    const where: Prisma.UserWhereUniqueInput = { id };
+    if (color) {
+      where.handle = {
+        is: {
+          availableColors: {
+            has: color,
+          },
+        },
+      };
+    }
+
+    const update: Prisma.UserHandleUpdateInput = {};
+    if (name) {
+      update.name = name;
+    }
+    if (color) {
+      update.selectedColor = color;
+    }
+
+    return await this.#prismaClient.user.update({
+      where,
+      data: {
+        handle: {
+          update,
         },
       },
     });
