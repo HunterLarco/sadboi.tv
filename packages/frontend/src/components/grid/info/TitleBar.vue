@@ -1,11 +1,11 @@
 <script setup lang="ts">
-//
+import * as gridStore from '@/store/grid';
 </script>
 
 <template>
   <div class="TitleBar">
     <div class="Title">About sadboi</div>
-    <div class="Icon">
+    <div class="Icon" @click="gridStore.page.value = null">
       <img src="@/assets/images/grid/dock/InfoIcon.svg" />
     </div>
   </div>

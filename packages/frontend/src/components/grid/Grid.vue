@@ -2,12 +2,13 @@
 import Dock from '@/components/grid/Dock.vue';
 import Layout from '@/components/grid/Layout.vue';
 import InfoPage from '@/components/grid/info/Page.vue';
+import * as gridStore from '@/store/grid';
 </script>
 
 <template>
   <Layout>
     <div class="Router">
-      <InfoPage />
+      <InfoPage v-if="gridStore.page.value == 'Info'" />
     </div>
     <Dock />
   </Layout>

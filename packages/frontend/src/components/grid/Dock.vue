@@ -1,18 +1,38 @@
 <script setup lang="ts">
-// TODO: https://github.com/trivago/prettier-plugin-sort-imports/issues/191
+import * as gridStore from '@/store/grid';
 </script>
 
 <template>
   <div class="Dock">
-    <div class="Icon">
-      <img src="@/assets/images/grid/dock/ChatIcon.svg" />
+    <div class="Left">
+      <div
+        class="Icon"
+        v-if="gridStore.page.value != 'Chat'"
+        @click="gridStore.page.value = 'Chat'"
+      >
+        <img src="@/assets/images/grid/dock/ChatIcon.svg" />
+      </div>
+      <div class="HiddenIcon" v-else />
+
+      <div
+        class="Icon"
+        v-if="gridStore.page.value != 'Settings'"
+        @click="gridStore.page.value = 'Settings'"
+      >
+        <img src="@/assets/images/grid/dock/SettingsIcon.svg" />
+      </div>
+      <div class="HiddenIcon" v-else />
     </div>
-    <div class="Icon">
-      <img src="@/assets/images/grid/dock/SettingsIcon.svg" />
-    </div>
-    <div class="Spacer" />
-    <div class="Icon">
-      <img src="@/assets/images/grid/dock/InfoIcon.svg" />
+
+    <div class="Right">
+      <div
+        class="Icon"
+        v-if="gridStore.page.value != 'Info'"
+        @click="gridStore.page.value = 'Info'"
+      >
+        <img src="@/assets/images/grid/dock/InfoIcon.svg" />
+      </div>
+      <div class="HiddenIcon" v-else />
     </div>
   </div>
 </template>
@@ -40,8 +60,16 @@
   }
 }
 
-.Spacer {
+.Left {
+  @include layout-horizontal;
+
   flex-grow: 1;
+}
+
+.Right {
+  @include layout-horizontal;
+
+  flex-shrink: 0;
 }
 
 .Icon {
@@ -69,5 +97,10 @@
     top: 1px;
     z-index: -1;
   }
+}
+
+.HiddenIcon {
+  width: 48px;
+  height: 48px;
 }
 </style>
