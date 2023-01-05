@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="Host">
+  <div class="Dock">
     <div class="Icon">
       <img src="@/assets/images/grid/dock/ChatIcon.svg" />
     </div>
@@ -20,7 +20,7 @@
 <style scoped lang="scss">
 @import '@/styles/layout';
 
-.Host {
+.Dock {
   @include layout-horizontal;
 
   height: 50px;
