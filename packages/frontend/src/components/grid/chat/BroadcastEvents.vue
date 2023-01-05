@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-
+import BroadcastEvent from '@/components/grid/chat/BroadcastEvent.vue';
 import { useBroadcastStore } from '@/store/broadcast';
 
 const broadcastStore = useBroadcastStore();
-const { events } = storeToRefs(broadcastStore);
 </script>
 
 <template>
   <div class="BroadcastEvents">
-    <pre>{{ events }}</pre>
+    <BroadcastEvent
+      :event="event"
+      v-for="event of broadcastStore.events"
+      :key="event.id"
+    />
   </div>
 </template>
 

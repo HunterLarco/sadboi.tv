@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
 import ChatIcon from '@/assets/images/grid/dock/ChatIcon.svg';
@@ -9,7 +8,6 @@ import { useGridStore } from '@/store/grid';
 import type { GridPage } from '@/store/grid';
 
 const gridStore = useGridStore();
-const { page: gridPage } = storeToRefs(gridStore);
 
 type IconDefinition = {
   page: GridPage;
@@ -41,8 +39,8 @@ const rightIcons = ref<Array<IconDefinition>>([
       <template v-for="icon of leftIcons" :key="icon.page">
         <div
           class="Icon"
-          v-if="gridPage != icon.page"
-          @click="gridPage = icon.page"
+          v-if="gridStore.page != icon.page"
+          @click="gridStore.page = icon.page"
         >
           <img :src="icon.image" />
         </div>
@@ -54,8 +52,8 @@ const rightIcons = ref<Array<IconDefinition>>([
       <template v-for="icon of rightIcons" :key="icon.page">
         <div
           class="Icon"
-          v-if="gridPage != icon.page"
-          @click="gridPage = icon.page"
+          v-if="gridStore.page != icon.page"
+          @click="gridStore.page = icon.page"
         >
           <img :src="icon.image" />
         </div>
