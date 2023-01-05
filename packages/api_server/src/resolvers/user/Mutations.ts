@@ -16,7 +16,7 @@ export const resolvers: MutationResolvers = {
   async setUserHandleColor(_0, { color }, { dataSources, actor }) {
     if (!actor) {
       throw new GraphQLError(
-        'setUserHandleName endpoint requires a logged in user.',
+        'setUserHandleColor endpoint requires a logged in user.',
         { extensions: { code: 'UNAUTHORIZED' } }
       );
     }

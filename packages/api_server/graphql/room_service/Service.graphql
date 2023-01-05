@@ -20,6 +20,10 @@ type Subscription {
   viewingRoom(id: ID!): ViewingRoomEvent!
 }
 
+type Query {
+  viewingRoomHistory(id: ID!): [ViewingRoomEvent!]!
+}
+
 type Mutation {
   sendChatMessage(request: SendChatMessageRequest!): SendChatMessageResponse!
 }
