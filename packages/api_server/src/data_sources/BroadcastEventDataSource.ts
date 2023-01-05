@@ -13,7 +13,7 @@ export default class BroadcastEventDataSource {
     this.#prismaClient = prismaClient;
   }
 
-  async createTextChatMessageEvent(args: {
+  async createChatMessageEvent(args: {
     actor: User;
     text: string;
   }): Promise<BroadcastEvent> {
@@ -27,7 +27,7 @@ export default class BroadcastEventDataSource {
             preservedHandle: actor.handle,
             payload: {
               text: {
-                text,
+                value: text,
               },
             },
           },
@@ -36,23 +36,17 @@ export default class BroadcastEventDataSource {
     });
   }
 
-  async createShakaChatMessageEvent(args: {
+  async createUserEnterChatEvent(args: {
     actor: User;
-    enteringChat: boolean;
   }): Promise<BroadcastEvent> {
-    const { actor, enteringChat } = args;
+    const { actor } = args;
 
     return await this.#prismaClient.broadcastEvent.create({
       data: {
         details: {
-          chatMessage: {
-            authorId: actor.id,
+          userEnterChat: {
+            userId: actor.id,
             preservedHandle: actor.handle,
-            payload: {
-              shaka: {
-                enteringChat,
-              },
-            },
           },
         },
       },

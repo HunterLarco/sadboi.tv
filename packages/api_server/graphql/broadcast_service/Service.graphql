@@ -19,6 +19,7 @@ type Query {
 }
 
 type Mutation {
+  enterChat: EnterChatResponse!
   sendChatMessage(request: SendChatMessageRequest!): SendChatMessageResponse!
 }
 
@@ -42,17 +43,18 @@ input SendChatMessageRequest {
 input SendChatMessagePayload {
   # Only one of the following must be defined.
   text: SendChatMessageTextPayload
-  shaka: SendChatMessageShakaPayload
 }
 
 input SendChatMessageTextPayload {
-  text: String!
-}
-
-input SendChatMessageShakaPayload {
-  enteringChat: Boolean!
+  value: String!
 }
 
 type SendChatMessageResponse {
+  event: BroadcastEvent!
+}
+
+### enterChat
+
+type EnterChatResponse {
   event: BroadcastEvent!
 }

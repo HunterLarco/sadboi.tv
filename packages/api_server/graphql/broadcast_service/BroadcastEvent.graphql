@@ -4,10 +4,17 @@
 type BroadcastEvent {
   id: ID!
   timestamp: DateTime!
-  details: BroadcastEventDetails
+  details: BroadcastEventDetails!
 }
 
-union BroadcastEventDetails = ChatMessageEvent | UserHandleChangeEvent
+type BroadcastEventDetails {
+  # A broadcast event can contain multiple specializations, instead of using a
+  # union type which doesn't play nicely with Prisma and codegen-mappers, we
+  # enumerate the possibilities here assuming only one is set.
+  chatMessage: ChatMessageEvent
+  userHandleChange: UserHandleChangeEvent
+  userEnterChat: UserEnterChatEvent
+}
 
 ### ChatMessageEvent
 
@@ -27,14 +34,15 @@ type ChatMessageEvent {
   payload: ChatMessagePayload!
 }
 
-union ChatMessagePayload = ChatMessageTextPayload | ChatMessageShakaPayload
-
-type ChatMessageTextPayload {
-  text: String!
+type ChatMessagePayload {
+  # A chat message can contain multiple specializations, instead of using a
+  # union type which doesn't play nicely with Prisma and codegen-mappers, we
+  # enumerate the possibilities here assuming only one is set.
+  text: ChatMessageTextPayload
 }
 
-type ChatMessageShakaPayload {
-  enteringChat: Boolean!
+type ChatMessageTextPayload {
+  value: String!
 }
 
 ### UserHandleChangeEvent
@@ -46,6 +54,22 @@ something else that changed).
 type UserHandleChangeEvent {
   before: UserHandle!
   after: UserHandle!
+}
+
+### UserEnterChatEvent
+
+"""
+Indicates that a user entered the chat.
+"""
+type UserEnterChatEvent {
+  user: User!
+
+  """
+  Handles can change in the middle of a chat conversation. If clients wish to
+  show chat history with the chat handles used at the time each message was
+  sent, this field preserves that data.
+  """
+  preservedHandle: UserHandle!
 }
 
 ### Scalars

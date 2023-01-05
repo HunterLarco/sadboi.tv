@@ -8,13 +8,42 @@ import { GraphQLError } from 'graphql';
 import type { RequestContext } from '@/RequestContext';
 
 export const resolvers: MutationResolvers = {
-  async sendChatMessage(_0, { request }, requestContext) {
-    const { dataSources } = requestContext;
+  async sendChatMessage(_0, { request }, { dataSources, actor }) {
+    if (!actor) {
+      throw new GraphQLError(
+        'sendChatMessage endpoint requires a logged in user.',
+        { extensions: { code: 'UNAUTHORIZED' } }
+      );
+    } else if (!request.payload.text) {
+      throw new GraphQLError('Exactly one payload type must be defined.', {
+        extensions: { code: 'INVALID_ARGUMENT' },
+      });
+    }
 
-    const broadcastEvent = await createChatMessage({
-      requestContext,
-      payload: request.payload,
-    });
+    const broadcastEvent =
+      await dataSources.BroadcastEvent.createChatMessageEvent({
+        actor,
+        text: request.payload.text.value,
+      });
+
+    dataSources.BroadcastEventPubSub.publish(broadcastEvent);
+
+    return {
+      event: broadcastEvent,
+    };
+  },
+
+  async enterChat(_0, _1, { dataSources, actor }) {
+    if (!actor) {
+      throw new GraphQLError('enterChat endpoint requires a logged in user.', {
+        extensions: { code: 'UNAUTHORIZED' },
+      });
+    }
+
+    const broadcastEvent =
+      await dataSources.BroadcastEvent.createUserEnterChatEvent({
+        actor,
+      });
 
     dataSources.BroadcastEventPubSub.publish(broadcastEvent);
 
@@ -23,34 +52,3 @@ export const resolvers: MutationResolvers = {
     };
   },
 };
-
-async function createChatMessage(args: {
-  requestContext: RequestContext;
-  payload: SendChatMessagePayload;
-}): Promise<BroadcastEvent> {
-  const { requestContext, payload } = args;
-  const { dataSources, actor } = requestContext;
-
-  if (!actor) {
-    throw new GraphQLError(
-      'sendChatMessage endpoint requires a logged in user.',
-      { extensions: { code: 'UNAUTHORIZED' } }
-    );
-  }
-
-  if (payload.text) {
-    return await dataSources.BroadcastEvent.createTextChatMessageEvent({
-      actor,
-      text: payload.text.text,
-    });
-  } else if (payload.shaka) {
-    return await dataSources.BroadcastEvent.createShakaChatMessageEvent({
-      actor,
-      enteringChat: payload.shaka.enteringChat,
-    });
-  }
-
-  throw new GraphQLError('Unknown chat message payload.', {
-    extensions: { code: 'INVALID_ARGUMENT' },
-  });
-}

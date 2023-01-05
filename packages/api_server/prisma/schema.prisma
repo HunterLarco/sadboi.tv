@@ -54,38 +54,32 @@ type BroadcastEventDetails {
   // Only one of these fields should be set.
   chatMessage ChatMessageEvent?
   userHandleChange UserHandleChangeEvent?
-}
-
-enum BroadcastEventType {
-  ChatMessage
-  UserHandleChange
+  userEnterChat UserEnterChatEvent?
 }
 
 type ChatMessageEvent {
   authorId String
-
   preservedHandle UserHandle
-
   payload ChatMessagePayload
 }
 
 type ChatMessagePayload {
   // Only one of these fields should be set.
   text ChatMessageTextPayload?
-  shaka ChatMessageShakaPayload?
 }
 
 type ChatMessageTextPayload {
-  text String
-}
-
-type ChatMessageShakaPayload {
-  enteringChat Boolean
+  value String
 }
 
 type UserHandleChangeEvent {
   before UserHandle
   after UserHandle
+}
+
+type UserEnterChatEvent {
+  userId String
+  preservedHandle UserHandle
 }
 
 /// AuthToken
