@@ -28,5 +28,6 @@ const props = defineProps<{
 
 <style scoped lang="scss">
 .BroadcastEvent {
+  margin: 10px 22px;
 }
 </style>

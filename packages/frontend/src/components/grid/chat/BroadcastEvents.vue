@@ -22,5 +22,6 @@ const broadcastStore = useBroadcastStore();
   @include fonts-collapsed-body;
 
   background: #000;
+  padding: 12px 0;
 }
 </style>
