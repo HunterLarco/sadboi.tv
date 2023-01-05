@@ -11,6 +11,8 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { provideApolloClient } from '@vue/apollo-composable';
 import { createClient } from 'graphql-ws';
 
+import BroadcastEventFieldPolicy from '@/apollo/cache_policies/BroadcastEvent';
+
 /// Create link
 
 const wsLink = new GraphQLWsLink(
@@ -58,7 +60,15 @@ const link = split(
 
 /// Create cache
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  typePolicies: {
+    BroadcastEvent: {
+      fields: {
+        ...BroadcastEventFieldPolicy,
+      },
+    },
+  },
+});
 
 /// Construct the client
 
