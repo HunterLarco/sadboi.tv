@@ -30,7 +30,7 @@ type Mutation {
 
 type CreateUserResponse {
   user: Viewer!
-  deviceToken: ID!
+  authToken: ID!
 }
 
 scalar Void

@@ -9,7 +9,7 @@ export const resolvers: MutationResolvers = {
     const authToken = await dataSources.AuthToken.createUserAuthToken(user.id);
     return {
       user,
-      deviceToken: authToken.id,
+      authToken: authToken.id,
     };
   },
 
