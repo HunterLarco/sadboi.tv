@@ -1,0 +1,6 @@
+#import 'external/UserHandle.graphql'
+
+type UserHandleChange {
+  old: UserHandle!
+  new: UserHandle!
+}

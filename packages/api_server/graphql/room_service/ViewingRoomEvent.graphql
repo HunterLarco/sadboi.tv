@@ -1,0 +1,5 @@
+type ViewingRoomEvent {
+  timestamp: DateTime!
+}
+
+scalar DateTime

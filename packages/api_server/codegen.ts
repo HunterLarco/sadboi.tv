@@ -14,7 +14,7 @@ const kResolverConfig = {
   mappers: kMappers,
 };
 
-const kServiceList = ['ping_pong_service', 'user_service'];
+const kServiceList = ['ping_pong_service', 'room_service', 'user_service'];
 
 const config: CodegenConfig = {
   generates: {
