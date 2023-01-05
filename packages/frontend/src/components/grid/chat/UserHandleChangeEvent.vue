@@ -11,22 +11,23 @@ const props = defineProps<{
   event: BroadcastEvent;
 }>();
 
-const message = computed(() => props.event.details.chatMessage!);
+const handleChange = computed(() => props.event.details.userHandleChange!);
 </script>
 
 <template>
-  <div class="ChatMessageEvent">
-    <UserHandle :handle="message.preservedHandle" />
-    {{ message.payload.text?.value }}
+  <div class="UserHandleChangeEvent">
+    <UserHandle :handle="handleChange.before" />
+    has changed their handle to
+    <UserHandle :handle="handleChange.after" />
   </div>
 </template>
 
 <style scoped lang="scss">
 @import '@/styles/fonts';
 
-.ChatMessageEvent {
-  @include fonts-collapsed-body;
+.UserHandleChangeEvent {
+  @include fonts-notes;
 
-  word-break: break-word;
+  opacity: 0.35;
 }
 </style>
