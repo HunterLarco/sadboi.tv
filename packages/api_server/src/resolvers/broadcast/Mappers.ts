@@ -56,11 +56,11 @@ export const resolvers: Resolvers = {
   },
 
   UserHandleChangeEvent: {
-    old(parent) {
-      return parent.old;
+    before(parent) {
+      return parent.before;
     },
-    new(parent) {
-      return parent.new;
+    after(parent) {
+      return parent.after;
     },
   },
 };

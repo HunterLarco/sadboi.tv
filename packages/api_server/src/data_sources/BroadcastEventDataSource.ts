@@ -1,4 +1,9 @@
-import type { BroadcastEvent, PrismaClient, User } from '@prisma/client';
+import type {
+  BroadcastEvent,
+  PrismaClient,
+  User,
+  UserHandle,
+} from '@prisma/client';
 
 export default class BroadcastEventDataSource {
   #prismaClient: PrismaClient;
@@ -25,7 +30,24 @@ export default class BroadcastEventDataSource {
             },
           },
         },
-        timestamp: new Date(),
+      },
+    });
+  }
+
+  async createUserHandleChangeEvent(args: {
+    before: UserHandle;
+    after: UserHandle;
+  }): Promise<BroadcastEvent> {
+    const { before, after } = args;
+
+    return await this.#prismaClient.broadcastEvent.create({
+      data: {
+        details: {
+          userHandleChange: {
+            before,
+            after,
+          },
+        },
       },
     });
   }

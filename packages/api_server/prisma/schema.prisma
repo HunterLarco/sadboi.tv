@@ -74,8 +74,8 @@ type ChatMessagePayload {
 }
 
 type UserHandleChangeEvent {
-  old UserHandle
-  new UserHandle
+  before UserHandle
+  after UserHandle
 }
 
 /// AuthToken

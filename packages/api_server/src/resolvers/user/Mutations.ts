@@ -31,10 +31,20 @@ export const resolvers: MutationResolvers = {
       );
     }
 
-    await dataSources.User.updateUserHandle({
+    const updatedUser = await dataSources.User.updateUserHandle({
       id: actor.id,
       color: prismaColor,
     });
+
+    /// Publish this change to the broadcast pubsub.
+
+    const broadcastEvent =
+      await dataSources.BroadcastEvent.createUserHandleChangeEvent({
+        before: actor.handle,
+        after: updatedUser.handle,
+      });
+
+    dataSources.BroadcastEventPubSub.publish(broadcastEvent);
   },
 
   async setUserHandleName(_0, { name }, { dataSources, actor }) {
@@ -51,7 +61,20 @@ export const resolvers: MutationResolvers = {
       });
     }
 
-    await dataSources.User.updateUserHandle({ id: actor.id, name });
+    const updatedUser = await dataSources.User.updateUserHandle({
+      id: actor.id,
+      name,
+    });
+
+    /// Publish this change to the broadcast pubsub.
+
+    const broadcastEvent =
+      await dataSources.BroadcastEvent.createUserHandleChangeEvent({
+        before: actor.handle,
+        after: updatedUser.handle,
+      });
+
+    dataSources.BroadcastEventPubSub.publish(broadcastEvent);
   },
 };
 
