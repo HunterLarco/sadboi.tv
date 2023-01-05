@@ -1,35 +1,66 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
 
+import ChatIcon from '@/assets/images/grid/dock/ChatIcon.svg';
+import InfoIcon from '@/assets/images/grid/dock/InfoIcon.svg';
+import SettingsIcon from '@/assets/images/grid/dock/SettingsIcon.svg';
 import { useGridStore } from '@/store/grid';
+import type { GridPage } from '@/store/grid';
 
 const gridStore = useGridStore();
 const { page: gridPage } = storeToRefs(gridStore);
+
+type IconDefinition = {
+  page: GridPage;
+  image: string;
+};
+
+const leftIcons = ref<Array<IconDefinition>>([
+  {
+    page: 'Chat',
+    image: ChatIcon,
+  },
+  {
+    page: 'Settings',
+    image: SettingsIcon,
+  },
+]);
+
+const rightIcons = ref<Array<IconDefinition>>([
+  {
+    page: 'Info',
+    image: InfoIcon,
+  },
+]);
 </script>
 
 <template>
   <div class="Dock">
     <div class="Left">
-      <div class="Icon" v-if="gridPage != 'Chat'" @click="gridPage = 'Chat'">
-        <img src="@/assets/images/grid/dock/ChatIcon.svg" />
-      </div>
-      <div class="HiddenIcon" v-else />
-
-      <div
-        class="Icon"
-        v-if="gridPage != 'Settings'"
-        @click="gridPage = 'Settings'"
-      >
-        <img src="@/assets/images/grid/dock/SettingsIcon.svg" />
-      </div>
-      <div class="HiddenIcon" v-else />
+      <template v-for="icon of leftIcons" :key="icon.page">
+        <div
+          class="Icon"
+          v-if="gridPage != icon.page"
+          @click="gridPage = icon.page"
+        >
+          <img :src="icon.image" />
+        </div>
+        <div class="HiddenIcon" v-else />
+      </template>
     </div>
 
     <div class="Right">
-      <div class="Icon" v-if="gridPage != 'Info'" @click="gridPage = 'Info'">
-        <img src="@/assets/images/grid/dock/InfoIcon.svg" />
-      </div>
-      <div class="HiddenIcon" v-else />
+      <template v-for="icon of rightIcons" :key="icon.page">
+        <div
+          class="Icon"
+          v-if="gridPage != icon.page"
+          @click="gridPage = icon.page"
+        >
+          <img :src="icon.image" />
+        </div>
+        <div class="HiddenIcon" v-else />
+      </template>
     </div>
   </div>
 </template>
