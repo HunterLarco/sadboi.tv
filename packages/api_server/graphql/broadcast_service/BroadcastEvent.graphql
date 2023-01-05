@@ -1,0 +1,43 @@
+#import 'external/User.graphql'
+#import 'external/UserHandle.graphql'
+
+type BroadcastEvent {
+  id: ID!
+  timestamp: DateTime!
+  details: BroadcastEventDetails
+}
+
+union BroadcastEventDetails = ChatMessageEvent | UserHandleChangeEvent
+
+### ChatMessageEvent
+
+"""
+Indicates that a chat message has been sent,
+"""
+type ChatMessageEvent {
+  author: User!
+
+  """
+  Handles can change in the middle of a chat conversation. If clients wish to
+  show chat history with the chat handles used at the time each message was
+  sent, this field preserves that data.
+  """
+  preservedHandle: UserHandle!
+
+  payload: String!
+}
+
+### UserHandleChangeEvent
+
+"""
+Indicates that a user changed their chat handle (be it name, color, or
+something else that changed).
+"""
+type UserHandleChangeEvent {
+  old: UserHandle!
+  new: UserHandle!
+}
+
+### Scalars
+
+scalar DateTime

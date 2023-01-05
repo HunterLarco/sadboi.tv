@@ -1,0 +1,44 @@
+#import 'BroadcastEvent.graphql'
+
+type Subscription {
+  """
+  Subscription for all broadcast events (show start times, chat messages,
+  etc...).
+  """
+  broadcastEvent: BroadcastEvent!
+}
+
+type Query {
+  """
+  Used in conjunction with `broadcastEvent` subscription to load previously sent
+  events.
+  """
+  broadcastEventHistory(
+    request: BroadcastEventHistoryRequest!
+  ): BroadcastEventHistoryResponse!
+}
+
+type Mutation {
+  sendChatMessage(request: SendChatMessageRequest!): SendChatMessageResponse!
+}
+
+### viewingRoomHistory
+
+input BroadcastEventHistoryRequest {
+  cursor: ID
+}
+
+type BroadcastEventHistoryResponse {
+  events: [BroadcastEvent!]!
+  nextPageCursor: ID
+}
+
+### sendChatMessage
+
+input SendChatMessageRequest {
+  payload: String!
+}
+
+type SendChatMessageResponse {
+  event: BroadcastEvent!
+}

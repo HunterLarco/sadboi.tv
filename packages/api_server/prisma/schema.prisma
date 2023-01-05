@@ -40,34 +40,31 @@ enum UserBadge {
   SadBot
 }
 
-/// ViewingRoomEvent
+/// BroadcastEvent
 
-model ViewingRoomEvent {
+model BroadcastEvent {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  room String
-
-  type ViewingRoomEventType
-  details ViewingRoomEventDetails
-
+  details BroadcastEventDetails
   timestamp DateTime @default(now())
 
-  @@index([room, timestamp])
+  @@index([timestamp])
 }
 
-enum ViewingRoomEventType {
-  ChatMessage
-  UserHandleChange
-}
-
-type ViewingRoomEventDetails {
+type BroadcastEventDetails {
+  // Only one of these fields should be set.
   chatMessage ChatMessageEvent?
   userHandleChange UserHandleChangeEvent?
+}
+
+enum BroadcastEventType {
+  ChatMessage
+  UserHandleChange
 }
 
 type ChatMessageEvent {
   authorId String
 
-  preservedHandle PreservedUserHandle
+  preservedHandle UserHandle
 
   payload ChatMessagePayload
 }
@@ -76,15 +73,9 @@ type ChatMessagePayload {
   text String
 }
 
-type PreservedUserHandle {
-  name String
-  color UserHandleColor
-  badges UserBadge[]
-}
-
 type UserHandleChangeEvent {
-  old PreservedUserHandle
-  new PreservedUserHandle
+  old UserHandle
+  new UserHandle
 }
 
 /// AuthToken
