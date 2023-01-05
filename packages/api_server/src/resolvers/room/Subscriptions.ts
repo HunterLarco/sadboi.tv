@@ -17,6 +17,10 @@ export const resolvers: SubscriptionResolvers = {
 
       for await (const event of dataSources.WaitingRoomPubSub.subscribe()) {
         yield { waitingRoom: event };
+
+        if (event.type == WaitingRoomEventType.RoomAssignment) {
+          return;
+        }
       }
     },
   },

@@ -40,6 +40,53 @@ enum UserBadge {
   SadBot
 }
 
+/// ViewingRoomEvent
+
+model ViewingRoomEvent {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  room String
+
+  type ViewingRoomEventType
+  details ViewingRoomEventDetails
+
+  timestamp DateTime @default(now())
+
+  @@index([room, timestamp])
+}
+
+enum ViewingRoomEventType {
+  ChatMessage
+  UserHandleChange
+}
+
+type ViewingRoomEventDetails {
+  chatMessage ChatMessageEvent?
+  userHandleChange UserHandleChangeEvent?
+}
+
+type ChatMessageEvent {
+  authorId String
+
+  preservedHandle PreservedUserHandle
+
+  payload ChatMessagePayload
+}
+
+type ChatMessagePayload {
+  text String
+}
+
+type PreservedUserHandle {
+  name String
+  color UserHandleColor
+  badges UserBadge[]
+}
+
+type UserHandleChangeEvent {
+  old PreservedUserHandle
+  new PreservedUserHandle
+}
+
 /// AuthToken
 
 model AuthToken {

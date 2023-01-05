@@ -27,6 +27,11 @@ export const resolvers: MutationResolvers = {
     };
 
     if (request.room) {
+      await dataSources.ViewingRoomEvent.createChatMessageEvent({
+        room: request.room,
+        actor,
+        payload: request.payload,
+      });
       dataSources.ViewingRoomPubSub.publish(request.room, {
         type: ViewingRoomEventType.ChatMessage,
         timestamp: new Date(),

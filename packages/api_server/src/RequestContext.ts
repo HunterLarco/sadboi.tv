@@ -4,12 +4,14 @@ import type { User } from '@prisma/client';
 import type { GlobalContext } from '@/GlobalContext';
 import AuthTokenDataSource from '@/data_sources/AuthTokenDataSource';
 import UserDataSource from '@/data_sources/UserDataSource';
+import ViewingRoomEventDataSource from '@/data_sources/ViewingRoomEventDataSource';
 import ViewingRoomPubSub from '@/data_sources/ViewingRoomPubSub';
 import WaitingRoomPubSub from '@/data_sources/WaitingRoomPubSub';
 
 type DataSources = {
   AuthToken: AuthTokenDataSource;
   User: UserDataSource;
+  ViewingRoomEvent: ViewingRoomEventDataSource;
   ViewingRoomPubSub: ViewingRoomPubSub;
   WaitingRoomPubSub: WaitingRoomPubSub;
 };
@@ -29,6 +31,9 @@ export async function createRequestContext(args: {
   const dataSources: DataSources = {
     AuthToken: new AuthTokenDataSource({ prismaClient: globalContext.prisma }),
     User: new UserDataSource({
+      prismaClient: globalContext.prisma,
+    }),
+    ViewingRoomEvent: new ViewingRoomEventDataSource({
       prismaClient: globalContext.prisma,
     }),
     ViewingRoomPubSub: new ViewingRoomPubSub(),

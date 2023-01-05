@@ -28,8 +28,18 @@ enum WaitingRoomEventType {
   something else that changed).
   """
   UserHandleChange
+
+  """
+  Delivers the room ID of the room this user has been assigned to. The server
+  will terminate the waiting room stream once this event type has been sent.
+  """
+  RoomAssignment
 }
 
-union WaitingRoomEventDetails = ChatMessage | UserHandleChange
+union WaitingRoomEventDetails = ChatMessage | UserHandleChange | RoomAssignment
+
+type RoomAssignment {
+  room: ID!
+}
 
 scalar DateTime

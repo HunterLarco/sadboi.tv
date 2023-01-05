@@ -21,11 +21,25 @@ type Subscription {
 }
 
 type Query {
-  viewingRoomHistory(id: ID!): [ViewingRoomEvent!]!
+  viewingRoomHistory(
+    request: ViewingRoomHistoryRequest!
+  ): ViewingRoomHistoryResponse!
 }
 
 type Mutation {
   sendChatMessage(request: SendChatMessageRequest!): SendChatMessageResponse!
+}
+
+### viewingRoomHistory
+
+input ViewingRoomHistoryRequest {
+  room: ID!
+  cursor: ID
+}
+
+type ViewingRoomHistoryResponse {
+  events: [ViewingRoomEvent!]!
+  nextPageCursor: ID
 }
 
 ### sendChatMessage
