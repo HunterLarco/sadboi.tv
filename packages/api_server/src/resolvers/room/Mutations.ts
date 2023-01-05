@@ -17,6 +17,7 @@ export const resolvers: MutationResolvers = {
     // TODO: persist history
 
     const chatMessage: ResolversTypes['ChatMessage'] = {
+      __typename: 'ChatMessage',
       author: actor,
       preservedHandle: actor.handle,
       payload: request.payload,
