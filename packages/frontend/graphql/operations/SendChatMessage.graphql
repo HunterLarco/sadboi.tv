@@ -1,0 +1,25 @@
+mutation SendChatMessage($text: String!) {
+  sendChatMessage(request: { payload: { text: { value: $text } } }) {
+    event {
+      id
+      timestamp
+      details {
+        chatMessage {
+          author {
+            id
+          }
+          payload {
+            text {
+              value
+            }
+          }
+          preservedHandle {
+            badges
+            color
+            name
+          }
+        }
+      }
+    }
+  }
+}

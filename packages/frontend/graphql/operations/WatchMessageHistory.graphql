@@ -1,7 +1,0 @@
-subscription WatchMessageHistory {
-  messageHistory {
-    id
-    payload
-    dateReceived
-  }
-}

@@ -1,0 +1,48 @@
+query GetBroadcastEventHistory($cursor: ID) {
+  broadcastEventHistory(request: { cursor: $cursor }) {
+    events {
+      id
+      timestamp
+      details {
+        chatMessage {
+          author {
+            id
+          }
+          payload {
+            text {
+              value
+            }
+          }
+          preservedHandle {
+            badges
+            color
+            name
+          }
+        }
+        userHandleChange {
+          before {
+            badges
+            color
+            name
+          }
+          after {
+            badges
+            color
+            name
+          }
+        }
+        userEnterChat {
+          user {
+            id
+          }
+          preservedHandle {
+            badges
+            color
+            name
+          }
+        }
+      }
+    }
+    nextPageCursor
+  }
+}

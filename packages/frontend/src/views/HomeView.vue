@@ -1,83 +1,104 @@
 <script setup lang="ts">
 import {
-  WatchMessageHistoryDocument,
-  useGetMessageHistoryQuery,
-  useSendMessageMutation,
+  WatchBroadcastEventHistoryDocument,
+  useGetBroadcastEventHistoryQuery,
+  useSendChatMessageMutation,
 } from '@generated/graphql/operations';
 import type {
-  WatchMessageHistorySubscription,
-  WatchMessageHistorySubscriptionVariables,
+  WatchBroadcastEventHistorySubscription,
+  WatchBroadcastEventHistorySubscriptionVariables,
 } from '@generated/graphql/operations';
+import cloneDeep from 'clone-deep';
 import { computed, ref } from 'vue';
 
-const loading = ref(false);
-const sendMessageResponse = ref({
-  payload: {},
-  error: '',
-});
+/// Form Data
 
-const { result: messageHistoryResult, subscribeToMore } =
-  useGetMessageHistoryQuery();
-const history = computed(() => messageHistoryResult.value?.messageHistory);
+const text = ref('');
 
-subscribeToMore<
-  WatchMessageHistorySubscription,
-  WatchMessageHistorySubscriptionVariables
+/// Queries
+
+const queries = {
+  getBroadcastEventHistory: useGetBroadcastEventHistoryQuery(),
+};
+
+const broadcastEventHistory = computed(
+  () => queries.getBroadcastEventHistory.result.value?.broadcastEventHistory
+);
+
+/// Subscriptions
+
+queries.getBroadcastEventHistory.subscribeToMore<
+  WatchBroadcastEventHistorySubscription,
+  WatchBroadcastEventHistorySubscriptionVariables
 >(() => ({
-  document: WatchMessageHistoryDocument,
+  document: WatchBroadcastEventHistoryDocument,
   updateQuery(previousResult, { subscriptionData }) {
-    return {
-      messageHistory: [
-        subscriptionData.data.messageHistory,
-        ...previousResult.messageHistory,
-      ],
-    };
+    const newResult = cloneDeep(previousResult);
+    newResult.broadcastEventHistory.events.unshift(
+      subscriptionData.data.broadcastEvent
+    );
+    return newResult;
   },
 }));
 
 /// Actions
 
-function sendMessage(message: string) {
-  const { mutate, onError, onDone } = useSendMessageMutation({});
+function loadBroadcastEventHistoryNextPage() {
+  if (!broadcastEventHistory.value?.nextPageCursor) {
+    return;
+  }
 
-  onDone((result) => {
-    loading.value = false;
-    sendMessageResponse.value.payload = result;
-    sendMessageResponse.value.error = '';
+  queries.getBroadcastEventHistory.fetchMore({
+    variables: {
+      cursor: broadcastEventHistory.value.nextPageCursor,
+    },
+    updateQuery: (previousResult, { fetchMoreResult }) => {
+      if (!fetchMoreResult) {
+        return previousResult;
+      }
+
+      const newResult = cloneDeep(previousResult);
+      newResult.broadcastEventHistory.events.push(
+        ...fetchMoreResult.broadcastEventHistory.events
+      );
+      newResult.broadcastEventHistory.nextPageCursor =
+        fetchMoreResult.broadcastEventHistory.nextPageCursor;
+      return newResult;
+    },
+  });
+}
+
+function sendChatMessage() {
+  const { mutate } = useSendChatMessageMutation({
+    variables: {
+      text: text.value,
+    },
   });
 
-  onError((error) => {
-    loading.value = false;
-    sendMessageResponse.value.payload = {};
-    sendMessageResponse.value.error = error.message;
-  });
-
-  loading.value = true;
-  mutate({ message });
+  mutate();
+  text.value = '';
 }
 </script>
 
 <template>
   <div class="HomePage">
     <div class="Left">
-      <button @click="sendMessage('ping')">Send "ping" message</button>
-      <button @click="sendMessage('hello')">Send "hello" message</button>
-      <div v-if="loading">Loading</div>
-      <div v-else>
-        <div v-if="sendMessageResponse.error">
-          <b>Error</b>
-          <pre>{{ sendMessageResponse.error }}</pre>
-        </div>
-        <div v-else>
-          <b>Result</b>
-          <pre>{{ sendMessageResponse.payload }}</pre>
-        </div>
-      </div>
+      <pre>{{ broadcastEventHistory?.events }}</pre>
+      <button
+        @click="loadBroadcastEventHistoryNextPage"
+        v-if="broadcastEventHistory?.nextPageCursor"
+      >
+        Load More
+      </button>
     </div>
 
     <div class="Right">
-      <b>Message History:</b>
-      <pre>{{ history }}</pre>
+      <input
+        v-model="text"
+        @keydown.enter="sendChatMessage"
+        placeholder="chat message"
+      />
+      <button @click="sendChatMessage">Send</button>
     </div>
   </div>
 </template>
