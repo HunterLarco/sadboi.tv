@@ -1,7 +1,0 @@
-type MessageLog {
-  id: ID!
-  payload: String!
-  dateReceived: DateTime!
-}
-
-scalar DateTime

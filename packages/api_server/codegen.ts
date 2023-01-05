@@ -1,12 +1,11 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const kMappers = {
-  MessageLog: '@prisma/client#MessageHistory as MessageHistoryModel',
   User: '@prisma/client#User as UserModel',
-  Viewer: '@prisma/client#User as UserModel',
+  UserBadge: '@prisma/client#UserBadge as UserBadgeModel',
   UserHandle: '@prisma/client#UserHandle as UserHandleModel',
   UserHandleColor: '@prisma/client#UserHandleColor as UserHandleColorModel',
-  UserBadge: '@prisma/client#UserBadge as UserBadgeModel',
+  Viewer: '@prisma/client#User as UserModel',
 };
 
 const kResolverConfig = {
@@ -14,7 +13,7 @@ const kResolverConfig = {
   mappers: kMappers,
 };
 
-const kServiceList = ['ping_pong_service', 'room_service', 'user_service'];
+const kServiceList = ['room_service', 'user_service'];
 
 const config: CodegenConfig = {
   generates: {

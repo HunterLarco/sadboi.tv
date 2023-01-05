@@ -3,14 +3,10 @@ import type { User } from '@prisma/client';
 
 import type { GlobalContext } from '@/GlobalContext';
 import AuthTokenDataSource from '@/data_sources/AuthTokenDataSource';
-import MessageHistoryDataSource from '@/data_sources/MessageHistoryDataSource';
-import MessageLogPubSub from '@/data_sources/MessageLogPubSub';
 import UserDataSource from '@/data_sources/UserDataSource';
 import WaitingRoomPubSub from '@/data_sources/WaitingRoomPubSub';
 
 type DataSources = {
-  MessageHistory: MessageHistoryDataSource;
-  MessageLogPubSub: MessageLogPubSub;
   AuthToken: AuthTokenDataSource;
   User: UserDataSource;
   WaitingRoomPubSub: WaitingRoomPubSub;
@@ -30,10 +26,6 @@ export async function createRequestContext(args: {
 
   const dataSources: DataSources = {
     AuthToken: new AuthTokenDataSource({ prismaClient: globalContext.prisma }),
-    MessageHistory: new MessageHistoryDataSource({
-      prismaClient: globalContext.prisma,
-    }),
-    MessageLogPubSub: new MessageLogPubSub(),
     User: new UserDataSource({
       prismaClient: globalContext.prisma,
     }),
