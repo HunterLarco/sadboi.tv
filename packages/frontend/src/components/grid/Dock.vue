@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import * as gridStore from '@/store/grid';
+import { storeToRefs } from 'pinia';
+
+import { useGridStore } from '@/store/grid';
+
+const gridStore = useGridStore();
+const { page: gridPage } = storeToRefs(gridStore);
 </script>
 
 <template>
   <div class="Dock">
     <div class="Left">
-      <div
-        class="Icon"
-        v-if="gridStore.page.value != 'Chat'"
-        @click="gridStore.page.value = 'Chat'"
-      >
+      <div class="Icon" v-if="gridPage != 'Chat'" @click="gridPage = 'Chat'">
         <img src="@/assets/images/grid/dock/ChatIcon.svg" />
       </div>
       <div class="HiddenIcon" v-else />
 
       <div
         class="Icon"
-        v-if="gridStore.page.value != 'Settings'"
-        @click="gridStore.page.value = 'Settings'"
+        v-if="gridPage != 'Settings'"
+        @click="gridPage = 'Settings'"
       >
         <img src="@/assets/images/grid/dock/SettingsIcon.svg" />
       </div>
@@ -25,11 +26,7 @@ import * as gridStore from '@/store/grid';
     </div>
 
     <div class="Right">
-      <div
-        class="Icon"
-        v-if="gridStore.page.value != 'Info'"
-        @click="gridStore.page.value = 'Info'"
-      >
+      <div class="Icon" v-if="gridPage != 'Info'" @click="gridPage = 'Info'">
         <img src="@/assets/images/grid/dock/InfoIcon.svg" />
       </div>
       <div class="HiddenIcon" v-else />

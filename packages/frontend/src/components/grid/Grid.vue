@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+
 import Dock from '@/components/grid/Dock.vue';
 import Layout from '@/components/grid/Layout.vue';
 import InfoPage from '@/components/grid/info/Page.vue';
-import * as gridStore from '@/store/grid';
+import { useGridStore } from '@/store/grid';
+
+const gridStore = useGridStore();
+const { page: gridPage } = storeToRefs(gridStore);
 </script>
 
 <template>
   <Layout>
     <div class="Router">
-      <InfoPage v-if="gridStore.page.value == 'Info'" />
+      <InfoPage v-if="gridPage == 'Info'" />
     </div>
     <Dock />
   </Layout>

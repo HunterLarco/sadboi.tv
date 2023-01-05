@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import * as gridStore from '@/store/grid';
+import { storeToRefs } from 'pinia';
+
+import { useGridStore } from '@/store/grid';
+
+const gridStore = useGridStore();
+const { page: gridPage } = storeToRefs(gridStore);
 </script>
 
 <template>
   <div class="TitleBar">
     <div class="Title">About sadboi</div>
-    <div class="Icon" @click="gridStore.page.value = null">
+    <div class="Icon" @click="gridPage = null">
       <img src="@/assets/images/grid/dock/InfoIcon.svg" />
     </div>
   </div>

@@ -77,6 +77,7 @@ npm run lint:fix
 - Prisma Schema: https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference
 - GraphQL Codegen Mappers: https://the-guild.dev/blog/better-type-safety-for-resolvers-with-graphql-codegen
 - Federated GraphQL: https://www.apollographql.com/docs/federation/
+- Pinia Store: https://pinia.vuejs.org/
 
 ## Great Articles
 
