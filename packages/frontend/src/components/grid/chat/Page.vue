@@ -1,12 +1,10 @@
 <script setup lang="ts">
-//
+import BroadcastEvents from '@/components/grid/chat/BroadcastEvents.vue';
 </script>
 
 <template>
-  <div class="InfoPage">
-    <div class="Description">
-      <p>chat</p>
-    </div>
+  <div class="ChatPage">
+    <BroadcastEvents class="BroadcastEvents" />
   </div>
 </template>
 
@@ -14,39 +12,15 @@
 @import '@/styles/layout';
 @import '@/styles/fonts';
 
-.InfoPage {
+.ChatPage {
   @include layout-vertical;
 
   height: 100%;
 }
 
-.Description {
-  background: #000;
+.BroadcastEvents {
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding: 20px;
-
-  & > p {
-    @include fonts-collapsed-body;
-
-    margin: 10px;
-
-    & > a {
-      color: #d3b7ff;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-  }
-
-  & > ul {
-    @include fonts-collapsed-body;
-
-    margin: 10px 10px 10px 30px;
-  }
-}
-
-.TitleBar {
-  flex-shrink: 0;
 }
 </style>
