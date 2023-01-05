@@ -2,7 +2,10 @@ import type {
   MutationResolvers,
   ResolversTypes,
 } from '@generated/graphql/room_service/resolvers';
-import { WaitingRoomEventType } from '@generated/graphql/room_service/resolvers';
+import {
+  ViewingRoomEventType,
+  WaitingRoomEventType,
+} from '@generated/graphql/room_service/resolvers';
 import { GraphQLError } from 'graphql';
 
 export const resolvers: MutationResolvers = {
@@ -23,11 +26,19 @@ export const resolvers: MutationResolvers = {
       payload: request.payload,
     };
 
-    dataSources.WaitingRoomPubSub.publish({
-      type: WaitingRoomEventType.ChatMessage,
-      timestamp: new Date(),
-      details: chatMessage,
-    });
+    if (request.room) {
+      dataSources.ViewingRoomPubSub.publish(request.room, {
+        type: ViewingRoomEventType.ChatMessage,
+        timestamp: new Date(),
+        details: chatMessage,
+      });
+    } else {
+      dataSources.WaitingRoomPubSub.publish({
+        type: WaitingRoomEventType.ChatMessage,
+        timestamp: new Date(),
+        details: chatMessage,
+      });
+    }
 
     return {
       message: chatMessage,
