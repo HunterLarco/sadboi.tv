@@ -22,7 +22,9 @@ export const resolvers: MutationResolvers = {
     }
 
     const prismaColor = toPrismaColor(color);
-    if (
+    if (actor.handle.selectedColor == prismaColor) {
+      return;
+    } else if (
       actor.handle.availableColors.filter((c) => c == prismaColor).length == 0
     ) {
       throw new GraphQLError(
@@ -48,6 +50,8 @@ export const resolvers: MutationResolvers = {
   },
 
   async setUserHandleName(_0, { name }, { dataSources, actor }) {
+    const formattedName = name.trim();
+
     if (!actor) {
       throw new GraphQLError(
         'setUserHandleName endpoint requires a logged in user.',
@@ -55,15 +59,19 @@ export const resolvers: MutationResolvers = {
       );
     }
 
-    if (name.length < 5) {
+    if (formattedName.length < 5) {
       throw new GraphQLError('User names must be at least 5 characters.', {
         extensions: { code: 'INVALID_ARGUMENT' },
       });
     }
 
+    if (formattedName == actor.handle.name) {
+      return;
+    }
+
     const updatedUser = await dataSources.User.updateUserHandle({
       id: actor.id,
-      name,
+      name: formattedName,
     });
 
     /// Publish this change to the broadcast pubsub.
