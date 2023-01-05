@@ -1,20 +1,20 @@
-import type { MutationResolvers } from '@generated/graphql/broadcast_service/resolvers';
+import type {
+  MutationResolvers,
+  SendChatMessagePayload,
+} from '@generated/graphql/broadcast_service/resolvers';
+import type { BroadcastEvent } from '@prisma/client';
 import { GraphQLError } from 'graphql';
 
-export const resolvers: MutationResolvers = {
-  async sendChatMessage(_0, { request }, { dataSources, actor }) {
-    if (!actor) {
-      throw new GraphQLError(
-        'sendChatMessage endpoint requires a logged in user.',
-        { extensions: { code: 'UNAUTHORIZED' } }
-      );
-    }
+import type { RequestContext } from '@/RequestContext';
 
-    const broadcastEvent =
-      await dataSources.BroadcastEvent.createChatMessageEvent({
-        actor,
-        payload: request.payload,
-      });
+export const resolvers: MutationResolvers = {
+  async sendChatMessage(_0, { request }, requestContext) {
+    const { dataSources } = requestContext;
+
+    const broadcastEvent = await createChatMessage({
+      requestContext,
+      payload: request.payload,
+    });
 
     dataSources.BroadcastEventPubSub.publish(broadcastEvent);
 
@@ -23,3 +23,34 @@ export const resolvers: MutationResolvers = {
     };
   },
 };
+
+async function createChatMessage(args: {
+  requestContext: RequestContext;
+  payload: SendChatMessagePayload;
+}): Promise<BroadcastEvent> {
+  const { requestContext, payload } = args;
+  const { dataSources, actor } = requestContext;
+
+  if (!actor) {
+    throw new GraphQLError(
+      'sendChatMessage endpoint requires a logged in user.',
+      { extensions: { code: 'UNAUTHORIZED' } }
+    );
+  }
+
+  if (payload.text) {
+    return await dataSources.BroadcastEvent.createTextChatMessageEvent({
+      actor,
+      text: payload.text.text,
+    });
+  } else if (payload.shaka) {
+    return await dataSources.BroadcastEvent.createShakaChatMessageEvent({
+      actor,
+      enteringChat: payload.shaka.enteringChat,
+    });
+  }
+
+  throw new GraphQLError('Unknown chat message payload.', {
+    extensions: { code: 'INVALID_ARGUMENT' },
+  });
+}

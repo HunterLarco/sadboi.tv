@@ -24,7 +24,17 @@ type ChatMessageEvent {
   """
   preservedHandle: UserHandle!
 
-  payload: String!
+  payload: ChatMessagePayload!
+}
+
+union ChatMessagePayload = ChatMessageTextPayload | ChatMessageShakaPayload
+
+type ChatMessageTextPayload {
+  text: String!
+}
+
+type ChatMessageShakaPayload {
+  enteringChat: Boolean!
 }
 
 ### UserHandleChangeEvent

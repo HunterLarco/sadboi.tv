@@ -70,7 +70,17 @@ type ChatMessageEvent {
 }
 
 type ChatMessagePayload {
+  // Only one of these fields should be set.
+  text ChatMessageTextPayload?
+  shaka ChatMessageShakaPayload?
+}
+
+type ChatMessageTextPayload {
   text String
+}
+
+type ChatMessageShakaPayload {
+  enteringChat Boolean
 }
 
 type UserHandleChangeEvent {

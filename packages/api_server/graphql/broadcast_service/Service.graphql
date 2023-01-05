@@ -36,7 +36,21 @@ type BroadcastEventHistoryResponse {
 ### sendChatMessage
 
 input SendChatMessageRequest {
-  payload: String!
+  payload: SendChatMessagePayload!
+}
+
+input SendChatMessagePayload {
+  # Only one of the following must be defined.
+  text: SendChatMessageTextPayload
+  shaka: SendChatMessageShakaPayload
+}
+
+input SendChatMessageTextPayload {
+  text: String!
+}
+
+input SendChatMessageShakaPayload {
+  enteringChat: Boolean!
 }
 
 type SendChatMessageResponse {

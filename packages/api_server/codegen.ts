@@ -3,6 +3,10 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const kMappers = {
   BroadcastEvent: '@prisma/client#BroadcastEvent as BroadcastEventModel',
   ChatMessageEvent: '@prisma/client#ChatMessageEvent as ChatMessageEventModel',
+  ChatMessageShakaPayload:
+    '@prisma/client#ChatMessageShakaPayload as ChatMessageShakaPayloadModel',
+  ChatMessageTextPayload:
+    '@prisma/client#ChatMessageTextPayload as ChatMessageTextPayloadModel',
   User: '@prisma/client#User as UserModel',
   UserBadge: '@prisma/client#UserBadge as UserBadgeModel',
   UserHandle: '@prisma/client#UserHandle as UserHandleModel',

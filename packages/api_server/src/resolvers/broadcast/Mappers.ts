@@ -46,12 +46,40 @@ export const resolvers: Resolvers = {
       return parent.preservedHandle;
     },
     payload(parent) {
-      if (!parent.payload.text) {
-        throw new GraphQLError(`Chat message event is missing a payload.`, {
-          extensions: { code: 'BAD_STATE' },
-        });
+      for (const [key, value] of Object.entries(parent.payload)) {
+        if (value) {
+          return value;
+        }
       }
-      return parent.payload.text;
+      throw new GraphQLError(`ChatMessagePayload had no fields set.`, {
+        extensions: { code: 'BAD_STATE' },
+      });
+    },
+  },
+
+  ChatMessagePayload: {
+    __resolveType(parent) {
+      // Unfortunately, because Prisma doesn't support Unions and therefore
+      // doesn't add any information to the model types to support union
+      // discrimination, we need to manually look for unique fields that
+      // identify each type.
+      if ('text' in parent) {
+        return 'ChatMessageTextPayload';
+      } else {
+        return 'ChatMessageShakaPayload';
+      }
+    },
+  },
+
+  ChatMessageTextPayload: {
+    text(parent) {
+      return parent.text;
+    },
+  },
+
+  ChatMessageShakaPayload: {
+    enteringChat(parent) {
+      return parent.enteringChat;
     },
   },
 
