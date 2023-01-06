@@ -33,5 +33,32 @@ export const useBroadcastStore = defineStore('broadcast', () => {
       []
   );
 
-  return { events };
+  const fetchMoreEvents = async () => {
+    const nextPageCursor =
+      broadcastEventHistoryQuery.result.value?.broadcastEventHistory
+        .nextPageCursor;
+    if (!nextPageCursor) {
+      return;
+    }
+
+    broadcastEventHistoryQuery.fetchMore({
+      variables: {
+        cursor: nextPageCursor,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) {
+          return previousResult;
+        }
+        const newResult = cloneDeep(previousResult);
+        newResult.broadcastEventHistory.events.push(
+          ...fetchMoreResult.broadcastEventHistory.events
+        );
+        newResult.broadcastEventHistory.nextPageCursor =
+          fetchMoreResult.broadcastEventHistory.nextPageCursor;
+        return newResult;
+      },
+    });
+  };
+
+  return { events, fetchMoreEvents };
 });

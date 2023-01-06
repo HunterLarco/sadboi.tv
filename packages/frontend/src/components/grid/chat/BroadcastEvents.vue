@@ -37,12 +37,27 @@ watch(
 );
 
 watch(ascendingEvents, (after, before) => {
-  if (isAutoScrolling.value) {
-    nextTick(() => {
-      scrollToBottom();
-    });
+  // If the messages are being appended as new messages. Whereas will be false
+  // when prepending old messages (e.g. fetching more message history).
+  const areNewMessages = before.length == 0 || before[0].id == after[0].id;
+
+  if (areNewMessages) {
+    if (isAutoScrolling.value) {
+      nextTick(() => {
+        scrollToBottom();
+      });
+    } else {
+      unreadEvents.value += after.length - before.length;
+    }
   } else {
-    unreadEvents.value += after.length - before.length;
+    if (!scrollFrame.value) return;
+    const scrollHeight = scrollFrame.value.scrollHeight;
+    const scrollTop = scrollFrame.value.scrollTop;
+    nextTick(() => {
+      if (!scrollFrame.value) return;
+      scrollFrame.value.scrollTop =
+        scrollTop + (scrollFrame.value.scrollHeight - scrollHeight);
+    });
   }
 });
 
@@ -58,6 +73,12 @@ function onScroll() {
 
   if (atBottom) {
     unreadEvents.value = 0;
+  }
+
+  if (scrollFrame.value.scrollTop < scrollFrame.value.offsetHeight) {
+    // If we're less than one full vertical scroll away from the top, we should
+    // try to fetch more history.
+    broadcastStore.fetchMoreEvents();
   }
 }
 
