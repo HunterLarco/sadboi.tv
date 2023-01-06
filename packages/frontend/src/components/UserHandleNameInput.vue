@@ -4,7 +4,7 @@ import { computed, nextTick, ref, watch } from 'vue';
 const props = withDefaults(
   defineProps<{
     modelValue: string;
-    placeholder: string;
+    placeholder?: string;
   }>(),
   {
     placeholder: 'snowflakesmasher86',
@@ -12,6 +12,8 @@ const props = withDefaults(
 );
 
 const emit = defineEmits(['update:modelValue']);
+
+defineExpose({ focus });
 
 /// Auto-focus
 

@@ -6,15 +6,16 @@ import { useGridStore } from '@/store/grid';
 
 const gridStore = useGridStore();
 
+const handleNameInput = ref<InstanceType<typeof UserHandleNameInput>>();
 const handleName = ref('');
 </script>
 
 <template>
   <div class="InputBar">
-    <div class="HandleEditor">
+    <div class="HandleEditor" @click="handleNameInput?.focus()">
       <div class="InputLabel">Preferred Handle:</div>
       <div class="Input">
-        <UserHandleNameInput v-model="handleName" />
+        <UserHandleNameInput v-model="handleName" ref="handleNameInput" />
       </div>
     </div>
 
