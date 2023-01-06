@@ -1,6 +1,7 @@
 import type { MutationResolvers } from '@generated/graphql/user_service/resolvers';
 import { UserHandleColor as GraphQLUserHandleColor } from '@generated/graphql/user_service/resolvers';
 import { UserHandleColor } from '@prisma/client';
+import deepEqual from 'fast-deep-equal';
 import { GraphQLError } from 'graphql';
 
 export const resolvers: MutationResolvers = {
@@ -64,13 +65,15 @@ export const resolvers: MutationResolvers = {
 
     /// Publish this change to the broadcast pubsub.
 
-    const broadcastEvent =
-      await dataSources.BroadcastEvent.createUserHandleChangeEvent({
-        before: actor.handle,
-        after: updatedUser.handle,
-      });
+    if (!deepEqual(updatedUser.handle, actor.handle)) {
+      const broadcastEvent =
+        await dataSources.BroadcastEvent.createUserHandleChangeEvent({
+          before: actor.handle,
+          after: updatedUser.handle,
+        });
 
-    dataSources.BroadcastEventPubSub.publish(broadcastEvent);
+      dataSources.BroadcastEventPubSub.publish(broadcastEvent);
+    }
 
     return updatedUser;
   },

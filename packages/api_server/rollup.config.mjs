@@ -18,6 +18,7 @@ export default {
     'cors',
     'dataloader',
     'express',
+    'fast-deep-equal',
     'graphql',
     'graphql-scalars',
     'graphql-subscriptions',
