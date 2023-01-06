@@ -15,9 +15,11 @@ async function logout() {
 
 <template>
   <div class="TitleBar">
-    <div class="LogoutButton" @click="logout">
+    <div class="LogoutButton" @click="logout" v-if="userStore.currentUser">
       <img src="@/assets/images/grid/settings/LogoutIcon.svg" />
     </div>
+    <div class="HiddenLogoutButton" v-else />
+
     <div class="PageIcon" @click="gridStore.page = null">
       <img src="@/assets/images/grid/dock/SettingsIcon.svg" />
     </div>
@@ -47,6 +49,12 @@ async function logout() {
     height: 100%;
     width: 100%;
   }
+}
+
+.HiddenLogoutButton {
+  background: #000;
+  height: 48px;
+  width: 48px;
 }
 
 .PageIcon {
