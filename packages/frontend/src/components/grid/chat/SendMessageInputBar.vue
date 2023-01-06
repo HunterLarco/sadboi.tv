@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
+
 import { useBroadcastStore } from '@/store/broadcast';
 
 const broadcastStore = useBroadcastStore();
+
+/// Lifestyle Hooks
+
+const input = ref<HTMLInputElement>();
+onMounted(() => {
+  input.value?.focus();
+});
 
 /// Actions
 
@@ -16,6 +25,7 @@ function sendMessage(event: KeyboardEvent) {
   <div class="SendMessageInputBar">
     <input
       type="text"
+      ref="input"
       placeholder="Whatcha gotta say?"
       @keydown.enter="sendMessage"
     />
