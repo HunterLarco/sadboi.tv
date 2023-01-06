@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UserHandleColor } from '@generated/graphql/operations';
-import { ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch } from 'vue';
 
 import UserHandleColorPicker from '@/components/UserHandleColorPicker.vue';
 import UserHandleNameInput from '@/components/UserHandleNameInput.vue';
@@ -29,15 +29,11 @@ watch(
   { immediate: true }
 );
 
-/// Actions
+/// Save the changes when unmounted.
 
-function submitHandleName() {
-  userStore.setHandle({ name: handleName.value });
-}
-
-function submitHandleColor() {
-  userStore.setHandle({ color: handleColor.value });
-}
+onBeforeUnmount(() => {
+  userStore.setHandle({ name: handleName.value, color: handleColor.value });
+});
 </script>
 
 <template>
@@ -47,12 +43,10 @@ function submitHandleColor() {
       class="HandleNameInput"
       v-model="handleName"
       :color="handleColor"
-      @enter="submitHandleName"
     />
     <UserHandleColorPicker
       v-model="handleColor"
       :available-colors="userStore.currentUser.handleSettings.availableColors"
-      @select="submitHandleColor"
     />
   </div>
 </template>
