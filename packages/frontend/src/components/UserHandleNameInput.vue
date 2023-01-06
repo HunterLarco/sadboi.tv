@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { UserHandleColor } from '@generated/graphql/operations';
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 
+import RelocatedNode from '@/components/RelocatedNode.vue';
 import { toUserHandleHexPattern } from '@/util/user_handle';
 
 const props = withDefaults(
@@ -48,13 +49,6 @@ const nameStyles = computed(() => ({
   width: `${inputWidth.value}px`,
   ...handleColorStyles.value.center,
 }));
-
-onMounted(() => {
-  // If the content has changed while unmounted, we need to update the size when
-  // we become mounted.
-  if (!sizer.value) return;
-  inputWidth.value = sizer.value.offsetWidth + 1;
-});
 
 /// Handle Colors
 
@@ -115,9 +109,11 @@ function onKeyPress(event: KeyboardEvent) {
     />
     <span class="Bracket" :style="handleColorStyles.right">]</span>
 
-    <span class="TextSizer" ref="sizer">{{
-      props.modelValue || props.placeholder
-    }}</span>
+    <RelocatedNode destination="body">
+      <span class="TextSizer" ref="sizer">{{
+        props.modelValue || props.placeholder
+      }}</span>
+    </RelocatedNode>
   </div>
 </template>
 
