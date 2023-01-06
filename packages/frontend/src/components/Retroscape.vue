@@ -19,7 +19,6 @@
   width: 100%;
 
   img {
-    margin-bottom: -130px;
     width: 100%;
   }
 }
