@@ -20,10 +20,14 @@ const shakaIcon = ref<InstanceType<typeof ShakaIcon>>();
 
 /// Actions
 
-function enterChat() {
+async function enterChat() {
   if (userStore.currentUser) {
+    await userStore.setHandle({
+      name: handleName.value,
+      color: handleColor.value,
+    });
   } else {
-    userStore.createUser();
+    await userStore.createUser();
   }
 }
 </script>

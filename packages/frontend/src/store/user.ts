@@ -1,11 +1,13 @@
 import type {
   GetViewerQuery,
   GetViewerQueryVariables,
+  UserHandleColor,
 } from '@generated/graphql/operations';
 import {
   GetViewerDocument,
   useCreateUserMutation,
   useGetViewerQuery,
+  useSetUserHandleMutation,
 } from '@generated/graphql/operations';
 import { defineStore } from 'pinia';
 import { computed } from 'vue';
@@ -14,7 +16,7 @@ export const useUserStore = defineStore('user', () => {
   const getViewerQuery = useGetViewerQuery();
   const currentUser = computed(() => getViewerQuery.result.value?.viewer);
 
-  const createUser = () => {
+  const createUser = async () => {
     const { mutate } = useCreateUserMutation({
       update(cache, result) {
         const response = result.data?.createUser;
@@ -32,8 +34,21 @@ export const useUserStore = defineStore('user', () => {
       },
     });
 
-    mutate();
+    await mutate();
   };
 
-  return { currentUser, createUser };
+  const setHandle = async (args: { name: string; color: UserHandleColor }) => {
+    const { name, color } = args;
+
+    const { mutate } = useSetUserHandleMutation({
+      variables: {
+        name,
+        color,
+      },
+    });
+
+    await mutate();
+  };
+
+  return { currentUser, createUser, setHandle };
 });

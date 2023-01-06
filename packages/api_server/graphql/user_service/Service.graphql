@@ -22,7 +22,7 @@ type Mutation {
   """
   createUser: CreateUserResponse!
 
-  setUserHandle(request: SetUserHandleRequest!): User!
+  setUserHandle(request: SetUserHandleRequest!): Viewer!
 }
 
 ### createUser
