@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from 'vue';
 
 import UserHandle from '@/components/UserHandle.vue';
 import ShakaIcon from '@/components/grid/chat/ShakaIcon.vue';
+import { toUserHandleHexPattern } from '@/util/user_handle';
 
 type BroadcastEvent =
   GetBroadcastEventHistoryQuery['broadcastEventHistory']['events'][number];
@@ -13,6 +14,9 @@ const props = defineProps<{
 }>();
 
 const enterChat = computed(() => props.event.details.userEnterChat!);
+const shakaIconColor = computed(
+  () => toUserHandleHexPattern(enterChat.value.preservedHandle.color).center
+);
 
 /// Lifecycle Hooks
 
@@ -27,7 +31,7 @@ onMounted(() => {
 <template>
   <div class="UserEnterChatEvent">
     <div class="Left">
-      <ShakaIcon fill="#FFF" ref="shakaIcon" />
+      <ShakaIcon :fill="shakaIconColor" ref="shakaIcon" />
     </div>
 
     <div class="Right">
