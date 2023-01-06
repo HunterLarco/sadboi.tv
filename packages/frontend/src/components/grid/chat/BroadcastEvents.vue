@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 
 import BroadcastEvent from '@/components/grid/chat/BroadcastEvent.vue';
 import UnreadBanner from '@/components/grid/chat/UnreadBanner.vue';
 import { useBroadcastStore } from '@/store/broadcast';
+import { useGridStore } from '@/store/grid';
 
 const broadcastStore = useBroadcastStore();
+const gridStore = useGridStore();
 
 // Defines if the content is currently being auto-scrolled, that is that we're
 // automatically scrolling the `scrollFrame` with new content.
@@ -17,6 +19,23 @@ const unreadEvents = ref(0);
 
 /// Auto-scroll Watcher
 
+watch(
+  () => gridStore.page,
+  () => {
+    if (gridStore.page != 'Chat') {
+      // Automatically stop scrolling when the chat window isn't visible. This
+      // way we preserve the user's scroll location.
+      isAutoScrolling.value = false;
+    } else {
+      // When we open the Chat window, quickly double check if we should be
+      // auto-scrolling.
+      nextTick(() => {
+        onScroll();
+      });
+    }
+  }
+);
+
 watch(ascendingEvents, (after, before) => {
   if (isAutoScrolling.value) {
     nextTick(() => {
@@ -25,12 +44,6 @@ watch(ascendingEvents, (after, before) => {
   } else {
     unreadEvents.value += after.length - before.length;
   }
-});
-
-/// Lifecycle Hooks
-
-onMounted(() => {
-  scrollToBottom();
 });
 
 /// Event Listeners
@@ -47,6 +60,8 @@ function onScroll() {
     unreadEvents.value = 0;
   }
 }
+
+/// Actions
 
 function scrollToBottom() {
   if (!scrollFrame.value) return;
