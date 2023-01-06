@@ -86,4 +86,5 @@ async function main() {
   console.log(`🚀 Running in ${process.env.NODE_ENV} mode`);
 }
 
+console.log('Starting the server...');
 main();
