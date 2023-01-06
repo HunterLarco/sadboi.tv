@@ -2,6 +2,7 @@
 import type { GetBroadcastEventHistoryQuery } from '@generated/graphql/operations';
 
 import ChatMessageEvent from '@/components/grid/chat/ChatMessageEvent.vue';
+import UserEnterChatEvent from '@/components/grid/chat/UserEnterChatEvent.vue';
 import UserHandleChangeEvent from '@/components/grid/chat/UserHandleChangeEvent.vue';
 
 type BroadcastEvent =
@@ -22,6 +23,11 @@ const props = defineProps<{
     <UserHandleChangeEvent
       :event="props.event"
       v-if="props.event.details.userHandleChange"
+    />
+
+    <UserEnterChatEvent
+      :event="props.event"
+      v-if="props.event.details.userEnterChat"
     />
   </div>
 </template>
