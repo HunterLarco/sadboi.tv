@@ -1,5 +1,7 @@
 import run from '@rollup/plugin-run';
 import typescript from '@rollup/plugin-typescript';
+import copy from 'rollup-plugin-copy';
+import generatePackageJson from 'rollup-plugin-generate-package-json';
 
 export default {
   input: 'src/index.ts',
@@ -14,6 +16,7 @@ export default {
     '@apollo/server/plugin/drainHttpServer',
     '@graphql-tools/merge',
     '@graphql-tools/schema',
+    '@prisma/client',
     'body-parser',
     'cors',
     'dataloader',
@@ -53,6 +56,21 @@ export default {
     process.env.NODE_ENV == 'development' &&
       run({
         execArgv: ['-r', 'source-map-support/register'],
+      }),
+    process.env.NODE_ENV != 'development' &&
+      copy({
+        targets: [
+          { src: 'prisma', dest: 'dist/' },
+          { src: 'Dockerfile', dest: 'dist/' },
+        ],
+      }),
+    process.env.NODE_ENV != 'development' &&
+      generatePackageJson({
+        baseContents: (packageJson) => ({
+          devDependencies: {
+            prisma: packageJson.devDependencies['prisma'],
+          },
+        }),
       }),
   ],
   watch: {
