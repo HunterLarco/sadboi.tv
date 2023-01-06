@@ -16,9 +16,9 @@ const handleChange = computed(() => props.event.details.userHandleChange!);
 
 <template>
   <div class="UserHandleChangeEvent">
-    <UserHandle :handle="handleChange.before" />
+    <UserHandle :user-id="handleChange.user.id" :handle="handleChange.before" />
     has changed their handle to
-    <UserHandle :handle="handleChange.after" />
+    <UserHandle :user-id="handleChange.user.id" :handle="handleChange.after" />
   </div>
 </template>
 

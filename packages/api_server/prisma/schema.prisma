@@ -73,6 +73,7 @@ type ChatMessageTextPayload {
 }
 
 type UserHandleChangeEvent {
+  userId String
   before UserHandle
   after UserHandle
 }

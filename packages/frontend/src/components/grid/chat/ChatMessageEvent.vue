@@ -16,7 +16,10 @@ const message = computed(() => props.event.details.chatMessage!);
 
 <template>
   <div class="ChatMessageEvent">
-    <UserHandle :handle="message.preservedHandle" />
+    <UserHandle
+      :user-id="message.author.id"
+      :handle="message.preservedHandle"
+    />
     {{ message.payload.text?.value }}
   </div>
 </template>

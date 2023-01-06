@@ -52,6 +52,8 @@ Indicates that a user changed their chat handle (be it name, color, or
 something else that changed).
 """
 type UserHandleChangeEvent {
+  user: User!
+
   before: UserHandle!
   after: UserHandle!
 }

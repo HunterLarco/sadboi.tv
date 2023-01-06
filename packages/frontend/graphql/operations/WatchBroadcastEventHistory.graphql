@@ -19,6 +19,9 @@ subscription WatchBroadcastEventHistory {
         }
       }
       userHandleChange {
+        user {
+          id
+        }
         before {
           badges
           color

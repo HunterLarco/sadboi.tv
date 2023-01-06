@@ -20,6 +20,9 @@ query GetBroadcastEventHistory($cursor: ID) {
           }
         }
         userHandleChange {
+          user {
+            id
+          }
           before {
             badges
             color

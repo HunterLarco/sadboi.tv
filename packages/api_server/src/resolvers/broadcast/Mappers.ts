@@ -54,6 +54,9 @@ export const resolvers: Resolvers = {
   },
 
   UserHandleChangeEvent: {
+    user(parent, _1, { dataSources }) {
+      return dataSources.User.getByIdOrThrow(parent.userId);
+    },
     before(parent) {
       return parent.before;
     },

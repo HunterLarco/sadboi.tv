@@ -54,15 +54,17 @@ export default class BroadcastEventDataSource {
   }
 
   async createUserHandleChangeEvent(args: {
+    userId: string;
     before: UserHandle;
     after: UserHandle;
   }): Promise<BroadcastEvent> {
-    const { before, after } = args;
+    const { userId, before, after } = args;
 
     return await this.#prismaClient.broadcastEvent.create({
       data: {
         details: {
           userHandleChange: {
+            userId,
             before,
             after,
           },

@@ -36,7 +36,10 @@ onMounted(() => {
 
     <div class="Right">
       <div>
-        <UserHandle :handle="enterChat.preservedHandle" />
+        <UserHandle
+          :user-id="enterChat.user.id"
+          :handle="enterChat.preservedHandle"
+        />
         has entered the chat.
       </div>
     </div>

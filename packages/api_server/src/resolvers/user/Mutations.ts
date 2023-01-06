@@ -68,6 +68,7 @@ export const resolvers: MutationResolvers = {
     if (!deepEqual(updatedUser.handle, actor.handle)) {
       const broadcastEvent =
         await dataSources.BroadcastEvent.createUserHandleChangeEvent({
+          userId: updatedUser.id,
           before: actor.handle,
           after: updatedUser.handle,
         });
