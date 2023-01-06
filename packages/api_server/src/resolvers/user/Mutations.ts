@@ -13,28 +13,54 @@ export const resolvers: MutationResolvers = {
     };
   },
 
-  async setUserHandleColor(_0, { color }, { dataSources, actor }) {
+  async setUserHandle(_0, { request }, { dataSources, actor }) {
     if (!actor) {
       throw new GraphQLError(
-        'setUserHandleColor endpoint requires a logged in user.',
+        'setUserHandle endpoint requires a logged in user.',
         { extensions: { code: 'UNAUTHORIZED' } }
       );
     }
 
-    const prismaColor = toPrismaColor(color);
-    if (actor.handle.selectedColor == prismaColor) {
-      return;
-    } else if (
-      actor.handle.availableColors.filter((c) => c == prismaColor).length == 0
-    ) {
-      throw new GraphQLError(
-        `User ${actor.id} is not permitted to use color ${color}.`,
-        { extensions: { code: 'INVALID_ARGUMENT' } }
-      );
+    /// Validate the name.
+
+    const formattedName =
+      request.name != null ? request.name.trim() : undefined;
+    if (formattedName) {
+      if (formattedName.length < 5) {
+        throw new GraphQLError('User names must be at least 5 characters.', {
+          extensions: { code: 'INVALID_ARGUMENT' },
+        });
+      } else if (formattedName.match(/[^a-zA-Z0-9_]/)) {
+        throw new GraphQLError(
+          `'${formattedName.replace(
+            /[a-zA-Z0-9_]/g,
+            ''
+          )}' are disallowed characters.`,
+          { extensions: { code: 'INVALID_ARGUMENT' } }
+        );
+      }
     }
+
+    /// Validate the color.
+
+    const prismaColor =
+      request.color != null ? toPrismaColor(request.color) : undefined;
+    if (prismaColor) {
+      if (
+        actor.handle.availableColors.filter((c) => c == prismaColor).length == 0
+      ) {
+        throw new GraphQLError(
+          `User ${actor.id} is not permitted to use color ${request.color}.`,
+          { extensions: { code: 'INVALID_ARGUMENT' } }
+        );
+      }
+    }
+
+    /// Update the handle.
 
     const updatedUser = await dataSources.User.updateUserHandle({
       id: actor.id,
+      name: formattedName,
       color: prismaColor,
     });
 
@@ -47,50 +73,8 @@ export const resolvers: MutationResolvers = {
       });
 
     dataSources.BroadcastEventPubSub.publish(broadcastEvent);
-  },
 
-  async setUserHandleName(_0, { name }, { dataSources, actor }) {
-    const formattedName = name.trim();
-
-    if (!actor) {
-      throw new GraphQLError(
-        'setUserHandleName endpoint requires a logged in user.',
-        { extensions: { code: 'UNAUTHORIZED' } }
-      );
-    }
-
-    if (formattedName.length < 5) {
-      throw new GraphQLError('User names must be at least 5 characters.', {
-        extensions: { code: 'INVALID_ARGUMENT' },
-      });
-    } else if (formattedName.match(/[^a-zA-Z0-9_]/)) {
-      throw new GraphQLError(
-        `'${formattedName.replace(
-          /[a-zA-Z0-9_]/g,
-          ''
-        )}' are disallowed characters.`,
-        { extensions: { code: 'INVALID_ARGUMENT' } }
-      );
-    }
-
-    if (formattedName == actor.handle.name) {
-      return;
-    }
-
-    const updatedUser = await dataSources.User.updateUserHandle({
-      id: actor.id,
-      name: formattedName,
-    });
-
-    /// Publish this change to the broadcast pubsub.
-
-    const broadcastEvent =
-      await dataSources.BroadcastEvent.createUserHandleChangeEvent({
-        before: actor.handle,
-        after: updatedUser.handle,
-      });
-
-    dataSources.BroadcastEventPubSub.publish(broadcastEvent);
+    return updatedUser;
   },
 };
 

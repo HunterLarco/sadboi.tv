@@ -22,8 +22,7 @@ type Mutation {
   """
   createUser: CreateUserResponse!
 
-  setUserHandleColor(color: UserHandleColor!): Void
-  setUserHandleName(name: String!): Void
+  setUserHandle(request: SetUserHandleRequest!): User!
 }
 
 ### createUser
@@ -34,3 +33,17 @@ type CreateUserResponse {
 }
 
 scalar Void
+
+### setUserHandle
+
+input SetUserHandleRequest {
+  """
+  If not specified, will remain unchanged.
+  """
+  name: String
+
+  """
+  If not specified, will remain unchanged.
+  """
+  color: UserHandleColor
+}
