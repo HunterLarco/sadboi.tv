@@ -63,6 +63,14 @@ export const resolvers: MutationResolvers = {
       throw new GraphQLError('User names must be at least 5 characters.', {
         extensions: { code: 'INVALID_ARGUMENT' },
       });
+    } else if (formattedName.match(/[^a-zA-Z0-9_]/)) {
+      throw new GraphQLError(
+        `'${formattedName.replace(
+          /[a-zA-Z0-9_]/g,
+          ''
+        )}' are disallowed characters.`,
+        { extensions: { code: 'INVALID_ARGUMENT' } }
+      );
     }
 
     if (formattedName == actor.handle.name) {
