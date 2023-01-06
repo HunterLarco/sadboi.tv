@@ -6,8 +6,10 @@ import UserHandleColorPicker from '@/components/UserHandleColorPicker.vue';
 import UserHandleNameInput from '@/components/UserHandleNameInput.vue';
 import ShakaIcon from '@/components/grid/chat/ShakaIcon.vue';
 import { useGridStore } from '@/store/grid';
+import { useUserStore } from '@/store/user';
 
 const gridStore = useGridStore();
+const userStore = useUserStore();
 
 const handleNameInput = ref<InstanceType<typeof UserHandleNameInput>>();
 const handleName = ref('');
@@ -15,6 +17,15 @@ const handleName = ref('');
 const handleColor = ref(UserHandleColor.Red);
 
 const shakaIcon = ref<InstanceType<typeof ShakaIcon>>();
+
+/// Actions
+
+function enterChat() {
+  if (userStore.currentUser) {
+  } else {
+    userStore.createUser();
+  }
+}
 </script>
 
 <template>
@@ -36,7 +47,7 @@ const shakaIcon = ref<InstanceType<typeof ShakaIcon>>();
       <div class="Icon" @click="gridStore.page = null">
         <img src="@/assets/images/grid/dock/ChatIcon.svg" />
       </div>
-      <div class="Title" @mouseenter="shakaIcon?.wiggle()">
+      <div class="Title" @mouseenter="shakaIcon?.wiggle()" @click="enterChat">
         <span>Ready to enter the chat?</span>
         <span><ShakaIcon fill="#BAFFB7" ref="shakaIcon" /></span>
       </div>

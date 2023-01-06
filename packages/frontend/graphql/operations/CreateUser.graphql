@@ -1,0 +1,18 @@
+mutation CreateUser {
+  createUser {
+    authToken
+    user {
+      dateCreated
+      handle {
+        badges
+        color
+        name
+      }
+      handleSettings {
+        availableBadges
+        availableColors
+      }
+      id
+    }
+  }
+}

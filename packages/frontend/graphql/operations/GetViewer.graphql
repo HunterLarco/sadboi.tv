@@ -1,0 +1,15 @@
+query GetViewer {
+  viewer {
+    dateCreated
+    handle {
+      badges
+      color
+      name
+    }
+    handleSettings {
+      availableBadges
+      availableColors
+    }
+    id
+  }
+}
