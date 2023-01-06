@@ -20,7 +20,6 @@ import BroadcastEvents from '@/components/grid/chat/BroadcastEvents.vue';
 
 .BroadcastEvents {
   flex-grow: 1;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow: hidden;
 }
 </style>
