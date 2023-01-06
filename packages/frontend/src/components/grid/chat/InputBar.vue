@@ -4,6 +4,7 @@ import { ref } from 'vue';
 
 import UserHandleColorPicker from '@/components/UserHandleColorPicker.vue';
 import UserHandleNameInput from '@/components/UserHandleNameInput.vue';
+import ShakaIcon from '@/components/grid/chat/ShakaIcon.vue';
 import { useGridStore } from '@/store/grid';
 
 const gridStore = useGridStore();
@@ -12,6 +13,8 @@ const handleNameInput = ref<InstanceType<typeof UserHandleNameInput>>();
 const handleName = ref('');
 
 const handleColor = ref(UserHandleColor.Red);
+
+const shakaIcon = ref<InstanceType<typeof ShakaIcon>>();
 </script>
 
 <template>
@@ -33,7 +36,10 @@ const handleColor = ref(UserHandleColor.Red);
       <div class="Icon" @click="gridStore.page = null">
         <img src="@/assets/images/grid/dock/ChatIcon.svg" />
       </div>
-      <div class="Title">Ready to enter the chat?</div>
+      <div class="Title" @mouseenter="shakaIcon?.wiggle()">
+        <span>Ready to enter the chat?</span>
+        <span><ShakaIcon fill="#BAFFB7" ref="shakaIcon" /></span>
+      </div>
     </div>
   </div>
 </template>
@@ -49,6 +55,7 @@ const handleColor = ref(UserHandleColor.Red);
   @include layout-horizontal;
 
   background: #1e1d1e;
+  cursor: text;
   height: 48px;
   padding: 0 20px;
 }
@@ -80,15 +87,28 @@ const handleColor = ref(UserHandleColor.Red);
 }
 
 .Title {
-  @include fonts-body;
-  @include layout-vertical-center;
+  @include fonts-notes;
+  @include layout-horizontal;
 
   background: #1e1d1e;
-  color: #d3b7ff;
+  cursor: pointer;
   flex-grow: 1;
+  font-weight: 600;
   overflow: hidden;
   padding: 0 24px;
   text-overflow: ellipsis;
+
+  & > span:nth-child(1) {
+    @include layout-vertical-center;
+
+    flex-grow: 1;
+  }
+
+  & > span:nth-child(2) {
+    @include layout-vertical-center;
+
+    flex-shrink: 0;
+  }
 }
 
 .Icon {
