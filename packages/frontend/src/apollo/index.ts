@@ -18,7 +18,7 @@ import BroadcastEventFieldPolicy from '@/apollo/cache_policies/BroadcastEvent';
 const wsLink = new GraphQLWsLink(
   createClient({
     url: import.meta.env.PROD
-      ? `ws://api.sadboi.tv/graphql`
+      ? `wss://api.sadboi.tv/graphql`
       : `ws://${window.location.hostname}:4000/graphql`,
     // Unbelievably, web sockers cannot include custom headers in browsers (see
     // linked source below). This means that we need to send our authorization
