@@ -35,11 +35,13 @@ function increaseProgressBar() {
 
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', emitEnter);
+  window.removeEventListener('mousedown', emitEnter);
 });
 
 watch(progress, () => {
   if (progress.value >= 1) {
     window.addEventListener('keydown', emitEnter);
+    window.addEventListener('mousedown', emitEnter);
   }
 });
 
