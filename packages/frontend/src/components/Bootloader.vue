@@ -132,8 +132,9 @@ function emitEnter() {
 }
 
 .EnterText {
-  @include fonts-body;
+  @include fonts-notes;
 
+  font-weight: 600;
   margin-top: 10px;
   position: absolute;
   text-align: center;
