@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import SettingsForm from '@/components/grid/settings/SettingsForm.vue';
 import TitleBar from '@/components/grid/settings/TitleBar.vue';
 </script>
 
 <template>
   <div class="SettingsPage">
-    <div class="SettingsForm" />
+    <div class="SettingsForm">
+      <SettingsForm />
+    </div>
     <TitleBar />
   </div>
 </template>
@@ -20,8 +23,10 @@ import TitleBar from '@/components/grid/settings/TitleBar.vue';
 }
 
 .SettingsForm {
+  background: #000;
   flex-grow: 1;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .InputBar {

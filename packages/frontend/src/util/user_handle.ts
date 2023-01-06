@@ -1,11 +1,15 @@
 import { UserHandleColor } from '@generated/graphql/operations';
 
-export function toUserHandleHexPattern(color: UserHandleColor): {
+export function toUserHandleHexPattern(
+  color: UserHandleColor | null | undefined
+): {
   left: string;
   center: string;
   right: string;
 } {
   switch (color) {
+    case null:
+    case undefined:
     case UserHandleColor.Unknown:
       return { left: '#1E1D1E', center: '#1E1D1E', right: '#1E1D1E' };
     case UserHandleColor.Green:

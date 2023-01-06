@@ -51,7 +51,10 @@ export const useUserStore = defineStore('user', () => {
     await mutate();
   };
 
-  const setHandle = async (args: { name: string; color: UserHandleColor }) => {
+  const setHandle = async (args: {
+    name?: string;
+    color?: UserHandleColor;
+  }) => {
     const { name, color } = args;
 
     const { mutate } = useSetUserHandleMutation({

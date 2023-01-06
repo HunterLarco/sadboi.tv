@@ -13,8 +13,8 @@ const gridStore = useGridStore();
   <Layout>
     <div class="Router">
       <ChatPage v-show="gridStore.page == 'Chat'" />
-      <SettingsPage v-show="gridStore.page == 'Settings'" />
-      <InfoPage v-show="gridStore.page == 'Info'" />
+      <SettingsPage v-if="gridStore.page == 'Settings'" />
+      <InfoPage v-if="gridStore.page == 'Info'" />
     </div>
     <Dock />
   </Layout>

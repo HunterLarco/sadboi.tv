@@ -7,16 +7,16 @@ import { toUserHandleHexPattern } from '@/util/user_handle';
 
 const props = withDefaults(
   defineProps<{
-    modelValue: string;
+    modelValue?: string;
     placeholder?: string;
-    color: UserHandleColor;
+    color?: UserHandleColor;
   }>(),
   {
     placeholder: 'snowflakesmasher86',
   }
 );
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'enter']);
 
 defineExpose({ focus });
 
@@ -104,6 +104,7 @@ function onKeyPress(event: KeyboardEvent) {
       @input="onInput"
       @keypress="onKeyPress"
       @paste="onPaste"
+      @keydown.enter="emit('enter')"
       :style="nameStyles"
       :placeholder="props.placeholder"
     />

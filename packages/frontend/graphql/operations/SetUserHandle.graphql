@@ -1,4 +1,4 @@
-mutation SetUserHandle($name: String!, $color: UserHandleColor!) {
+mutation SetUserHandle($name: String, $color: UserHandleColor) {
   setUserHandle(request: { name: $name, color: $color }) {
     id
     handle {

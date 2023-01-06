@@ -5,7 +5,7 @@ import { toUserHandleHexPattern } from '@/util/user_handle';
 
 const props = withDefaults(
   defineProps<{
-    modelValue: string;
+    modelValue?: UserHandleColor;
     availableColors?: Array<UserHandleColor>;
   }>(),
   {
@@ -22,12 +22,21 @@ const props = withDefaults(
   }
 );
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'select']);
 
 function createSwatchStyle(color: UserHandleColor) {
   return {
     background: toUserHandleHexPattern(color).center,
   };
+}
+
+function select(color: UserHandleColor) {
+  emit('update:modelValue', color);
+
+  // If clients want to react to user actions in this component, they need a
+  // signal in addition to v-model. Unlike watching the v-model, the @select
+  // even ensures that only user actions triggered the change.
+  emit('select', color);
 }
 </script>
 
@@ -38,7 +47,7 @@ function createSwatchStyle(color: UserHandleColor) {
       v-for="color of props.availableColors"
       :key="color"
       :style="createSwatchStyle(color)"
-      @click="emit('update:modelValue', color)"
+      @click="select(color)"
     />
   </div>
 </template>
