@@ -67,6 +67,29 @@ const handleColorStyles = computed(() => {
     right: { color: hexPattern.right },
   };
 });
+
+/// Input Handling
+
+function onInput(event: Event) {
+  const value = (<HTMLInputElement>event.target).value;
+  emit('update:modelValue', value);
+}
+
+function onPaste(event: ClipboardEvent) {
+  const text: string = event.clipboardData?.getData('text') ?? '';
+  return text.replace(/[^a-zA-Z0-9_]/g, '');
+}
+
+function onKeyPress(event: KeyboardEvent) {
+  if (event.key == ' ') {
+    // As a convenience, automatically convert spaces into underscores.
+    event.preventDefault();
+    const value = (<HTMLInputElement>event.target).value;
+    emit('update:modelValue', value + '_');
+  } else if (event.key.match(/[^a-zA-Z0-9_]/g)) {
+    event.preventDefault();
+  }
+}
 </script>
 
 <template>
@@ -77,9 +100,9 @@ const handleColorStyles = computed(() => {
       class="Name"
       ref="input"
       :value="props.modelValue"
-      @input="
-        emit('update:modelValue', (<HTMLInputElement>$event.target).value)
-      "
+      @input="onInput"
+      @keypress="onKeyPress"
+      @paste="onPaste"
       :style="nameStyles"
       :placeholder="props.placeholder"
     />
