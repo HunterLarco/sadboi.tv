@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { UserHandleColor } from '@generated/graphql/operations';
 import { ref } from 'vue';
 
+import UserHandleColorPicker from '@/components/UserHandleColorPicker.vue';
 import UserHandleNameInput from '@/components/UserHandleNameInput.vue';
 import { useGridStore } from '@/store/grid';
 
@@ -8,14 +10,22 @@ const gridStore = useGridStore();
 
 const handleNameInput = ref<InstanceType<typeof UserHandleNameInput>>();
 const handleName = ref('');
+
+const handleColor = ref(UserHandleColor.Red);
 </script>
 
 <template>
   <div class="InputBar">
+    <UserHandleColorPicker v-model="handleColor" />
+
     <div class="HandleEditor" @click="handleNameInput?.focus()">
       <div class="InputLabel">Preferred Handle:</div>
       <div class="Input">
-        <UserHandleNameInput v-model="handleName" ref="handleNameInput" />
+        <UserHandleNameInput
+          v-model="handleName"
+          ref="handleNameInput"
+          :color="handleColor"
+        />
       </div>
     </div>
 

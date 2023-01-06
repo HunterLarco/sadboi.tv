@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import type { UserHandleColor } from '@generated/graphql/operations';
 import { computed, nextTick, ref, watch } from 'vue';
+
+import { toUserHandleHexPattern } from '@/util/user_handle';
 
 const props = withDefaults(
   defineProps<{
     modelValue: string;
     placeholder?: string;
+    color: UserHandleColor;
   }>(),
   {
     placeholder: 'snowflakesmasher86',
@@ -42,12 +46,32 @@ watch(
 
 const nameStyles = computed(() => ({
   width: `${inputWidth.value}px`,
+  ...handleColorStyles.value.center,
 }));
+
+/// Handle Colors
+
+const handleColorStyles = computed(() => {
+  if (!props.modelValue) {
+    return {
+      left: { color: '#757575' },
+      center: { color: '#757575' },
+      right: { color: '#757575' },
+    };
+  }
+
+  const hexPattern = toUserHandleHexPattern(props.color);
+  return {
+    left: { color: hexPattern.left },
+    center: { color: hexPattern.center },
+    right: { color: hexPattern.right },
+  };
+});
 </script>
 
 <template>
   <div class="UserHandleNameInput" @click="focus">
-    <span class="Bracket">[</span>
+    <span class="Bracket" :style="handleColorStyles.left">[</span>
     <input
       type="text"
       class="Name"
@@ -59,7 +83,7 @@ const nameStyles = computed(() => ({
       :style="nameStyles"
       :placeholder="props.placeholder"
     />
-    <span class="Bracket">]</span>
+    <span class="Bracket" :style="handleColorStyles.right">]</span>
 
     <span class="TextSizer" ref="sizer">{{
       props.modelValue || props.placeholder
