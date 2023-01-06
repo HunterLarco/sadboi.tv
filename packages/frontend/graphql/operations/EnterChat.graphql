@@ -1,0 +1,20 @@
+mutation EnterChat {
+  enterChat {
+    event {
+      id
+      timestamp
+      details {
+        userEnterChat {
+          user {
+            id
+          }
+          preservedHandle {
+            badges
+            color
+            name
+          }
+        }
+      }
+    }
+  }
+}
