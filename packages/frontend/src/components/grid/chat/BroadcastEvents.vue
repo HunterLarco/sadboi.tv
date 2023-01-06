@@ -9,8 +9,8 @@ import { useGridStore } from '@/store/grid';
 const broadcastStore = useBroadcastStore();
 const gridStore = useGridStore();
 
-// Defines if the content is currently being auto-scrolled, that is that we're
-// automatically scrolling the `scrollFrame` with new content.
+// When true, indicates that as new content is rendered, we update the chat's
+// scroll position to view the new content.
 const isAutoScrolling = ref(true);
 
 const scrollFrame = ref<HTMLDivElement>();
@@ -27,8 +27,8 @@ watch(
       // way we preserve the user's scroll location.
       isAutoScrolling.value = false;
     } else {
-      // When we open the Chat window, quickly double check if we should be
-      // auto-scrolling.
+      // When we open the Chat window, if we're already at the bottom of the
+      // scroll area, restore `isAutoScrolling` to true.
       nextTick(() => {
         onScroll();
       });
@@ -42,6 +42,8 @@ watch(ascendingEvents, (after, before) => {
   const areNewMessages = before.length == 0 || before[0].id == after[0].id;
 
   if (areNewMessages) {
+    // When new messages are added, either auto-scroll are increase the count of
+    // unread events.
     if (isAutoScrolling.value) {
       nextTick(() => {
         scrollToBottom();
@@ -50,6 +52,11 @@ watch(ascendingEvents, (after, before) => {
       unreadEvents.value += after.length - before.length;
     }
   } else {
+    // When historical events are added, we always want to add the new content
+    // to the DOM without moving the scroll position. This logic ensures that
+    // the scroll position doesn't change by first snapshotting it before the
+    // new content is rendered, and then reapplying it after the content is
+    // rendered.
     if (!scrollFrame.value) return;
     const scrollHeight = scrollFrame.value.scrollHeight;
     const scrollTop = scrollFrame.value.scrollTop;

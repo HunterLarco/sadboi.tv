@@ -17,14 +17,18 @@ const unreadEvents = ref(0);
 watch(
   () => broadcastStore.events,
   (after, before) => {
-    if (gridStore.page == 'Chat') return;
-    unreadEvents.value += after.length - before.length;
+    if (gridStore.page != 'Chat') {
+      // If new events are streamed, but the chat is not open, increase the
+      // unread events count.
+      unreadEvents.value += after.length - before.length;
+    }
   }
 );
 watch(
   () => gridStore.page,
   (page) => {
     if (page == 'Chat') {
+      // When the chat is opened, set the unread events count to zero.
       unreadEvents.value = 0;
     }
   }
