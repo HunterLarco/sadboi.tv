@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import Retroscape from '@/components/Retroscape.vue';
+// import Retroscape from '@/components/Retroscape.vue';
 import SadboiFlourish from '@/components/SadboiFlourish.vue';
 import Grid from '@/components/grid/Grid.vue';
 </script>
 
 <template>
   <div class="HomePage">
-    <Retroscape />
+    <!-- <Retroscape /> -->
 
     <SadboiFlourish class="SadboiFlourish" />
 
