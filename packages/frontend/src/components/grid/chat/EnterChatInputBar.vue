@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { UserHandleColor } from '@generated/graphql/operations';
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import UserHandleColorPicker from '@/components/UserHandleColorPicker.vue';
 import UserHandleNameInput from '@/components/UserHandleNameInput.vue';
@@ -12,13 +12,31 @@ const gridStore = useGridStore();
 const userStore = useUserStore();
 
 const handleNameInput = ref<InstanceType<typeof UserHandleNameInput>>();
-const handleName = ref(userStore.currentUser?.handle.name ?? '');
+const handleName = ref('');
 
 const handleColor = ref(
   userStore.currentUser?.handle.color ?? UserHandleColor.Red
 );
 
 const shakaIcon = ref<InstanceType<typeof ShakaIcon>>();
+
+/// Lifecycle Hooks
+
+onMounted(() => {
+  // When mounted, set the initial handle name value prior to user editting.
+  // This allows us to insert the current user's handle.
+  handleName.value = userStore.currentUser?.handle.name ?? '';
+});
+
+watch(
+  () => userStore.currentUser,
+  () => {
+    // If the user gets logged out, reset the handle name to the placeholder.
+    if (!userStore.currentUser) {
+      handleName.value = '';
+    }
+  }
+);
 
 /// Actions
 

@@ -3,6 +3,7 @@ import Dock from '@/components/grid/Dock.vue';
 import Layout from '@/components/grid/Layout.vue';
 import ChatPage from '@/components/grid/chat/Page.vue';
 import InfoPage from '@/components/grid/info/Page.vue';
+import SettingsPage from '@/components/grid/settings/Page.vue';
 import { useGridStore } from '@/store/grid';
 
 const gridStore = useGridStore();
@@ -12,6 +13,7 @@ const gridStore = useGridStore();
   <Layout>
     <div class="Router">
       <ChatPage v-show="gridStore.page == 'Chat'" />
+      <SettingsPage v-show="gridStore.page == 'Settings'" />
       <InfoPage v-show="gridStore.page == 'Info'" />
     </div>
     <Dock />

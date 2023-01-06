@@ -18,5 +18,9 @@ export const useGridStore = defineStore('grid', () => {
     await mutate();
   };
 
-  return { page, hasEnteredChat, enterChat };
+  const resetEnteredState = () => {
+    hasEnteredChat.value = false;
+  };
+
+  return { page, hasEnteredChat, enterChat, resetEnteredState };
 });

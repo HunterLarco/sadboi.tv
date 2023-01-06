@@ -9,10 +9,13 @@ import {
   useGetViewerQuery,
   useSetUserHandleMutation,
 } from '@generated/graphql/operations';
+import { useApolloClient } from '@vue/apollo-composable';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
 export const useUserStore = defineStore('user', () => {
+  const apolloClient = useApolloClient();
+
   const getViewerQuery = useGetViewerQuery();
   const completedInitialLoad = ref(false);
   const currentUser = computed(() => getViewerQuery.result.value?.viewer);
@@ -39,7 +42,7 @@ export const useUserStore = defineStore('user', () => {
         window.localStorage.setItem('authorization', authToken);
 
         cache.writeQuery<GetViewerQuery, GetViewerQueryVariables>({
-          query: GetViewerDocument,
+          query: getViewerQuery.document.value,
           data: { viewer: user },
         });
       },
@@ -61,5 +64,21 @@ export const useUserStore = defineStore('user', () => {
     await mutate();
   };
 
-  return { completedInitialLoad, currentUser, createUser, setHandle };
+  const logout = async () => {
+    window.localStorage.removeItem('authorization');
+    apolloClient.client.cache.writeQuery<
+      GetViewerQuery,
+      GetViewerQueryVariables
+    >({
+      query: GetViewerDocument,
+      data: { viewer: null },
+    });
+    // Because authorization impacts all responses via personalization, we force
+    // every active query to refetch.
+    await apolloClient.client.refetchQueries({
+      include: 'all',
+    });
+  };
+
+  return { completedInitialLoad, currentUser, createUser, setHandle, logout };
 });

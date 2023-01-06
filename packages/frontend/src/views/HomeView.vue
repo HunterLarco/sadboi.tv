@@ -10,7 +10,7 @@ const enteredWebsite = ref(false);
 
 <template>
   <div class="HomePage">
-    <Bootloader @enter="enteredWebsite = true" v-if="!enteredWebsite" />
+    <Bootloader @enter="enteredWebsite = true" v-show="!enteredWebsite" />
 
     <template v-if="enteredWebsite">
       <SadboiFlourish class="SadboiFlourish" />
