@@ -29,7 +29,10 @@ async function enterChat() {
       color: handleColor.value,
     });
   } else {
-    await userStore.createUser();
+    await userStore.createUser({
+      name: handleName.value,
+      color: handleColor.value,
+    });
   }
   gridStore.enterChat();
 }

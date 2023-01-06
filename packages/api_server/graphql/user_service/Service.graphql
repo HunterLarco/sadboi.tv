@@ -20,12 +20,21 @@ type Mutation {
   Creates a new user. Clients will need to later attach credentials (phone
   number or email) to be able to recover this user if logged out.
   """
-  createUser: CreateUserResponse!
+  createUser(request: CreateUserRequest!): CreateUserResponse!
 
   setUserHandle(request: SetUserHandleRequest!): Viewer!
 }
 
 ### createUser
+
+input CreateUserRequest {
+  handle: CreateUserHandle!
+}
+
+input CreateUserHandle {
+  name: String!
+  color: UserHandleColor!
+}
 
 type CreateUserResponse {
   user: Viewer!

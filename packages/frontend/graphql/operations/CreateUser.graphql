@@ -1,5 +1,5 @@
-mutation CreateUser {
-  createUser {
+mutation CreateUser($handleName: String!, $handleColor: UserHandleColor!) {
+  createUser(request: { handle: { name: $handleName, color: $handleColor } }) {
     authToken
     user {
       dateCreated

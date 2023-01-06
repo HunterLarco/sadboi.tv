@@ -4,9 +4,19 @@ import { UserHandleColor } from '@prisma/client';
 import { GraphQLError } from 'graphql';
 
 export const resolvers: MutationResolvers = {
-  async createUser(_0, _1, { dataSources }) {
-    const user = await dataSources.User.createAnonymousUser();
+  async createUser(_0, { request }, { dataSources }) {
+    const formattedName = request.handle.name.trim();
+    validateHandleName(formattedName);
+
+    const user = await dataSources.User.createAnonymousUser({
+      handle: {
+        name: formattedName,
+        color: toPrismaColor(request.handle.color),
+      },
+    });
+
     const authToken = await dataSources.AuthToken.createUserAuthToken(user.id);
+
     return {
       user,
       authToken: authToken.id,
@@ -25,20 +35,8 @@ export const resolvers: MutationResolvers = {
 
     const formattedName =
       request.name != null ? request.name.trim() : undefined;
-    if (formattedName) {
-      if (formattedName.length < 5) {
-        throw new GraphQLError('User names must be at least 5 characters.', {
-          extensions: { code: 'INVALID_ARGUMENT' },
-        });
-      } else if (formattedName.match(/[^a-zA-Z0-9_]/)) {
-        throw new GraphQLError(
-          `'${formattedName.replace(
-            /[a-zA-Z0-9_]/g,
-            ''
-          )}' are disallowed characters.`,
-          { extensions: { code: 'INVALID_ARGUMENT' } }
-        );
-      }
+    if (formattedName != null) {
+      validateHandleName(formattedName);
     }
 
     /// Validate the color.
@@ -77,6 +75,19 @@ export const resolvers: MutationResolvers = {
     return updatedUser;
   },
 };
+
+function validateHandleName(name: string) {
+  if (name.length < 5) {
+    throw new GraphQLError('User names must be at least 5 characters.', {
+      extensions: { code: 'INVALID_ARGUMENT' },
+    });
+  } else if (name.match(/[^a-zA-Z0-9_]/)) {
+    throw new GraphQLError(
+      `'${name.replace(/[a-zA-Z0-9_]/g, '')}' are disallowed characters.`,
+      { extensions: { code: 'INVALID_ARGUMENT' } }
+    );
+  }
+}
 
 function toPrismaColor(color: GraphQLUserHandleColor): UserHandleColor {
   switch (color) {

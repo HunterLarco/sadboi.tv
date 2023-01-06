@@ -16,8 +16,14 @@ export const useUserStore = defineStore('user', () => {
   const getViewerQuery = useGetViewerQuery();
   const currentUser = computed(() => getViewerQuery.result.value?.viewer);
 
-  const createUser = async () => {
+  const createUser = async (args: { name: string; color: UserHandleColor }) => {
+    const { name, color } = args;
+
     const { mutate } = useCreateUserMutation({
+      variables: {
+        handleName: name,
+        handleColor: color,
+      },
       update(cache, result) {
         const response = result.data?.createUser;
         if (!response) {

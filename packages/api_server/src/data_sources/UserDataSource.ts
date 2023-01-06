@@ -2,7 +2,6 @@ import type { Prisma, PrismaClient, User } from '@prisma/client';
 import { UserHandleColor } from '@prisma/client';
 import DataLoader from 'dataloader';
 import { GraphQLError } from 'graphql';
-import pickRandom from 'pick-random';
 
 import GlobalAtomicCounters from '@/data_sources/GlobalAtomicCounters';
 import { psuedoRandomId } from '@/util/math/psuedo_random_id';
@@ -17,10 +16,18 @@ export default class UserDataSource {
     this.#counters = new GlobalAtomicCounters({ prismaClient });
   }
 
-  async createAnonymousUser(): Promise<User> {
+  async createAnonymousUser(args: {
+    handle: {
+      name: string;
+      color: UserHandleColor;
+    };
+  }): Promise<User> {
+    const {
+      handle: { name, color },
+    } = args;
+
     const totalUsers = await this.#counters.incrementCounter('TotalUsers');
     const id = psuedoRandomId({ seed: totalUsers, minBound: 100000 });
-    const name = `sadboi_${id}`;
     const availableColors = [
       UserHandleColor.Green,
       UserHandleColor.Turquoise,
@@ -31,14 +38,21 @@ export default class UserDataSource {
       UserHandleColor.Orange,
       UserHandleColor.Yellow,
     ];
-    const selectedColor = pickRandom(availableColors)[0];
+
+    // Quick sanity check that the requested color is available to a new user.
+    if (availableColors.filter((c) => c == color).length == 0) {
+      throw new GraphQLError(
+        `New users are not permitted to use color ${color}.`,
+        { extensions: { code: 'INVALID_ARGUMENT' } }
+      );
+    }
 
     return await this.#prismaClient.user.create({
       data: {
         id: id.toString(),
         handle: {
           name,
-          selectedColor,
+          selectedColor: color,
           availableColors,
           selectedBadges: [],
           availableBadges: [],
