@@ -1,16 +1,21 @@
 <script setup lang="ts">
-// import Retroscape from '@/components/Retroscape.vue';
+import { ref } from 'vue';
+
+import Bootloader from '@/components/Bootloader.vue';
 import SadboiFlourish from '@/components/SadboiFlourish.vue';
 import Grid from '@/components/grid/Grid.vue';
+
+const enteredWebsite = ref(false);
 </script>
 
 <template>
   <div class="HomePage">
-    <!-- <Retroscape /> -->
+    <Bootloader @enter="enteredWebsite = true" v-if="!enteredWebsite" />
 
-    <SadboiFlourish class="SadboiFlourish" />
-
-    <Grid class="Grid" />
+    <template v-if="enteredWebsite">
+      <SadboiFlourish class="SadboiFlourish" />
+      <Grid class="Grid" />
+    </template>
   </div>
 </template>
 
