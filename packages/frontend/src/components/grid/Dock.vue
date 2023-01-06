@@ -1,29 +1,56 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import ChatIcon from '@/assets/images/grid/dock/ChatIcon.svg';
 import InfoIcon from '@/assets/images/grid/dock/InfoIcon.svg';
 import SettingsIcon from '@/assets/images/grid/dock/SettingsIcon.svg';
+import { useBroadcastStore } from '@/store/broadcast';
 import { useGridStore } from '@/store/grid';
 import type { GridPage } from '@/store/grid';
 
+const broadcastStore = useBroadcastStore();
 const gridStore = useGridStore();
+
+/// Watch for unread events (populates the chat icon badge).
+
+const unreadEvents = ref(0);
+watch(
+  () => broadcastStore.events,
+  (after, before) => {
+    if (gridStore.page == 'Chat') return;
+    unreadEvents.value += after.length - before.length;
+  }
+);
+watch(
+  () => gridStore.page,
+  (page) => {
+    if (page == 'Chat') {
+      unreadEvents.value = 0;
+    }
+  }
+);
+
+/// Define Icons
 
 type IconDefinition = {
   page: GridPage;
   image: string;
+  badge?: number;
 };
 
-const leftIcons = ref<Array<IconDefinition>>([
-  {
-    page: 'Chat',
-    image: ChatIcon,
-  },
-  {
-    page: 'Settings',
-    image: SettingsIcon,
-  },
-]);
+const leftIcons = computed(
+  (): Array<IconDefinition> => [
+    {
+      page: 'Chat',
+      image: ChatIcon,
+      badge: unreadEvents.value > 0 ? unreadEvents.value : undefined,
+    },
+    {
+      page: 'Settings',
+      image: SettingsIcon,
+    },
+  ]
+);
 
 const rightIcons = ref<Array<IconDefinition>>([
   {
@@ -42,6 +69,7 @@ const rightIcons = ref<Array<IconDefinition>>([
           v-if="gridStore.page != icon.page"
           @click="gridStore.page = icon.page"
         >
+          <div class="Badge" v-if="icon.badge !== undefined" />
           <img :src="icon.image" />
         </div>
         <div class="HiddenIcon" v-else />
@@ -128,5 +156,15 @@ const rightIcons = ref<Array<IconDefinition>>([
 .HiddenIcon {
   width: 48px;
   height: 48px;
+}
+
+.Badge {
+  background: #d80000;
+  border-radius: 50%;
+  height: 6px;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 6px;
 }
 </style>
