@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 
 import BroadcastEvent from '@/components/grid/chat/BroadcastEvent.vue';
 import UnreadBanner from '@/components/grid/chat/UnreadBanner.vue';
@@ -25,6 +25,12 @@ watch(ascendingEvents, (after, before) => {
   } else {
     unreadEvents.value += after.length - before.length;
   }
+});
+
+/// Lifecycle Hooks
+
+onMounted(() => {
+  scrollToBottom();
 });
 
 /// Event Listeners

@@ -7,12 +7,8 @@ const props = defineProps<{
 
 const bannerStyles = computed(() =>
   props.count == 0
-    ? {
-        transform: 'translate(0, 100%)',
-      }
-    : {
-        transform: 'translate(0, 0%)',
-      }
+    ? { transform: 'translate(0, 100%)' }
+    : { transform: 'translate(0, 0%)' }
 );
 </script>
 
