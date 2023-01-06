@@ -51,6 +51,7 @@ function emitEnter() {
 <template>
   <div class="Bootloader">
     <div class="Sadboi">/ sadboi /</div>
+    <img src="@/assets/images/BootloaderStars.svg" class="Stars" />
 
     <div class="Loader">
       <div class="LoadingText">
@@ -135,5 +136,15 @@ function emitEnter() {
   position: absolute;
   text-align: center;
   width: 100%;
+}
+
+.Stars {
+  left: 50%;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
 }
 </style>
