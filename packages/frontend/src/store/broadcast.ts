@@ -1,6 +1,7 @@
 import {
   WatchBroadcastEventHistoryDocument,
   useGetBroadcastEventHistoryQuery,
+  useSendChatMessageMutation,
 } from '@generated/graphql/operations';
 import type {
   WatchBroadcastEventHistorySubscription,
@@ -60,5 +61,15 @@ export const useBroadcastStore = defineStore('broadcast', () => {
     });
   };
 
-  return { events, fetchMoreEvents };
+  const sendMessage = async (text: string) => {
+    const { mutate } = useSendChatMessageMutation({
+      variables: {
+        text,
+      },
+    });
+
+    await mutate();
+  };
+
+  return { events, fetchMoreEvents, sendMessage };
 });
