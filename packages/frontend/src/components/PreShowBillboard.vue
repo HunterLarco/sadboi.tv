@@ -31,7 +31,7 @@ import BillboardTitle from '@/components/billboard/BillboardTitle.vue';
 
 .Content {
   flex-grow: 1;
-  overflor-x: hidden;
+  overflow-x: hidden;
   overflow-y: scroll;
 
   & > p {
