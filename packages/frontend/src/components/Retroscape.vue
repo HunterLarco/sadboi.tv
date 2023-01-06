@@ -3,13 +3,13 @@
 </script>
 
 <template>
-  <div class="Host">
-    <img src="~@/assets/images/retroscape.svg" />
+  <div class="Retroscape">
+    <img src="~@/assets/images/Retroscape.svg" />
   </div>
 </template>
 
 <style scoped lang="scss">
-.Host {
+.Retroscape {
   bottom: 0;
   left: 0;
   mix-blend-mode: overlay;

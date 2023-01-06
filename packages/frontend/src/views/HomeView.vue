@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 import Bootloader from '@/components/Bootloader.vue';
 import PreShowBillboard from '@/components/PreShowBillboard.vue';
+import Retroscape from '@/components/Retroscape.vue';
 import SadboiFlourish from '@/components/SadboiFlourish.vue';
 import Grid from '@/components/grid/Grid.vue';
 
@@ -14,6 +15,7 @@ const enteredWebsite = ref(false);
     <Bootloader @enter="enteredWebsite = true" v-show="!enteredWebsite" />
 
     <template v-if="enteredWebsite">
+      <Retroscape />
       <SadboiFlourish class="SadboiFlourish" />
       <PreShowBillboard class="Billboard" />
       <Grid class="Grid" />

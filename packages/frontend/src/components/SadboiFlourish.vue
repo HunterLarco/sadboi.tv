@@ -3,11 +3,11 @@
 </script>
 
 <template>
-  <div class="Host" />
+  <div class="SadboiFlourish" />
 </template>
 
 <style scoped lang="scss">
-.Host {
+.SadboiFlourish {
   background-image: url('@/assets/images/SadboiFlourish.png');
   background-position: 0 46px;
   background-repeat: repeat-y;
