@@ -17,7 +17,9 @@ import BroadcastEventFieldPolicy from '@/apollo/cache_policies/BroadcastEvent';
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: `ws://${window.location.hostname}:4000/graphql`,
+    url: import.meta.env.PROD
+      ? `ws://api.sadboi.tv/graphql`
+      : `ws://${window.location.hostname}:4000/graphql`,
     // Unbelievably, web sockers cannot include custom headers in browsers (see
     // linked source below). This means that we need to send our authorization
     // token directly as part of the initial connection request instead of using
@@ -31,7 +33,9 @@ const wsLink = new GraphQLWsLink(
 );
 
 const httpLink = new HttpLink({
-  uri: `http://${window.location.hostname}:4000/graphql`,
+  uri: import.meta.env.PROD
+    ? `https://api.sadboi.tv/graphql`
+    : `http://${window.location.hostname}:4000/graphql`,
 });
 
 const authorization = new ApolloLink((operation, forward) => {
