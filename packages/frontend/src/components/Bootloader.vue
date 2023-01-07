@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
+import FontFaceObserver from 'fontfaceobserver';
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  shallowRef,
+  watch,
+} from 'vue';
 
 import type SadboiBroadcastType from '@/components/SadboiBroadcast.vue';
 import type { useBroadcastStore as useBroadcastStoreType } from '@/store/broadcast';
@@ -12,6 +20,97 @@ const userStore = shallowRef<ReturnType<typeof useUserStoreType>>();
 const gridStore = shallowRef<ReturnType<typeof useGridStoreType>>();
 const broadcastStore = shallowRef<ReturnType<typeof useBroadcastStoreType>>();
 const appComponent = shallowRef<typeof SadboiBroadcastType>();
+
+type FontFace = {
+  family: string;
+  style: 'normal' | 'italic';
+  weight: number;
+};
+
+const kFonts: Array<FontFace> = [
+  {
+    family: 'FoundersGrotesk',
+    style: 'normal',
+    weight: 300,
+  },
+  {
+    family: 'FoundersGrotesk',
+    style: 'normal',
+    weight: 400,
+  },
+  {
+    family: 'FoundersGrotesk',
+    style: 'normal',
+    weight: 500,
+  },
+  {
+    family: 'FoundersGrotesk',
+    style: 'normal',
+    weight: 600,
+  },
+  {
+    family: 'FoundersGrotesk',
+    style: 'normal',
+    weight: 700,
+  },
+  {
+    family: 'FoundersGrotesk',
+    style: 'italic',
+    weight: 300,
+  },
+  {
+    family: 'FoundersGrotesk',
+    style: 'italic',
+    weight: 400,
+  },
+  {
+    family: 'FoundersGrotesk',
+    style: 'italic',
+    weight: 500,
+  },
+  {
+    family: 'FoundersGrotesk',
+    style: 'italic',
+    weight: 600,
+  },
+  {
+    family: 'FoundersGrotesk',
+    style: 'italic',
+    weight: 700,
+  },
+  {
+    family: 'FoundersGroteskMono',
+    style: 'normal',
+    weight: 300,
+  },
+  {
+    family: 'FoundersGroteskMono',
+    style: 'normal',
+    weight: 400,
+  },
+  {
+    family: 'FoundersGroteskMono',
+    style: 'normal',
+    weight: 500,
+  },
+  {
+    family: 'FoundersGroteskMono',
+    style: 'normal',
+    weight: 600,
+  },
+  {
+    family: 'FoundersGroteskMono',
+    style: 'normal',
+    weight: 700,
+  },
+  {
+    family: 'NineteenNinetyThree',
+    style: 'normal',
+    weight: 400,
+  },
+];
+
+const fontsLoaded = ref<Array<boolean>>(kFonts.map((_) => false));
 
 onMounted(async () => {
   // The bootloader needs to do a few things:
@@ -40,7 +139,24 @@ onMounted(async () => {
 
   const appModule = await import('@/components/SadboiBroadcast.vue');
   appComponent.value = appModule.default;
+
+  /// 3. Load fonts.
+
+  for (let i = 0; i < kFonts.length; ++i) {
+    const font = kFonts[i];
+    console.log(`Loading font:`, font);
+    await loadFont(font);
+    fontsLoaded.value[i] = true;
+  }
 });
+
+async function loadFont(font: FontFace) {
+  const observer = new FontFaceObserver(font.family, {
+    weight: font.weight,
+    style: font.style,
+  });
+  await observer.load();
+}
 
 /// Calculate progress.
 
@@ -50,6 +166,7 @@ const progress = computed(() => {
     !!gridStore.value,
     !!broadcastStore.value,
     !!appComponent.value,
+    ...fontsLoaded.value,
   ];
 
   return steps.filter((step) => step).length / steps.length;
@@ -156,9 +273,8 @@ function emitEnter() {
 }
 
 .EnterText {
-  @include fonts-notes;
+  @include fonts-body;
 
-  font-weight: 600;
   margin-top: 10px;
   position: absolute;
   text-align: center;
