@@ -1,0 +1,16 @@
+#import 'Media.graphql'
+
+type Playbill {
+  acts: [Act!]!
+}
+
+type Act {
+  type: ActType!
+  media: Media!
+  whyWeChoseThis: String!
+}
+
+enum ActType {
+  Content
+  Bump
+}

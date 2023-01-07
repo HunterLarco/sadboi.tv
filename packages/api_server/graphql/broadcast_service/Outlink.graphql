@@ -1,0 +1,12 @@
+type Outlink {
+  type: OutlinkType!
+  uri: String!
+}
+
+enum OutlinkType {
+  Unknown
+  Vimeo
+  YouTube
+  SoundCloud
+  Bandcamp
+}

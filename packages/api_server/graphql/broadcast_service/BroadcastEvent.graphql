@@ -1,3 +1,5 @@
+#import 'Playbill.graphql'
+
 #import 'external/User.graphql'
 #import 'external/UserHandle.graphql'
 
@@ -14,6 +16,7 @@ type BroadcastEventDetails {
   chatMessage: ChatMessageEvent
   userHandleChange: UserHandleChangeEvent
   userEnterChat: UserEnterChatEvent
+  startShow: StartShowEvent
 }
 
 ### ChatMessageEvent
@@ -72,6 +75,13 @@ type UserEnterChatEvent {
   sent, this field preserves that data.
   """
   preservedHandle: UserHandle!
+}
+
+### StartShowEvent
+
+type StartShowEvent {
+  startTime: DateTime!
+  playbill: Playbill!
 }
 
 ### Scalars

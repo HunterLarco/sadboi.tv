@@ -1,0 +1,31 @@
+#import 'Creator.graphql'
+#import 'Outlink.graphql'
+
+type Media {
+  title: String!
+  about: String!
+
+  credits: [MediaCredit]!
+  outlinks: [Outlink]!
+
+  playback: MediaPlayback!
+}
+
+type MediaCredit {
+  role: String!
+  creator: Creator!
+}
+
+type MediaPlayback {
+  # Only one of the below should be set.
+  video: VideoPlayback
+  audio: AudioPlayback
+}
+
+type VideoPlayback {
+  muxPlaybackId: String!
+}
+
+type AudioPlayback {
+  muxPlaybackId: String!
+}
