@@ -83,6 +83,72 @@ type UserEnterChatEvent {
   preservedHandle UserHandle
 }
 
+/// Playbill
+
+type Playbill {
+  dateCreated DateTime
+  acts Act[]
+}
+
+type Act {
+  type ActType
+  media Media
+  whyWeChoseThis String
+}
+
+enum ActType {
+  Content
+  Bump
+}
+
+type Media {
+  title String
+  about String
+  credits MediaCredit[]
+  outlinks Outlink[]
+  playback MediaPlayback
+}
+
+type MediaCredit {
+  role String
+  creator Creator
+}
+
+type MediaPlayback {
+  // Only one of the below should be set.
+  video VideoPlayback?
+  audio AudioPlayback?
+}
+
+type VideoPlayback {
+  muxPlaybackId String
+  durationNs Int
+}
+
+type AudioPlayback {
+  muxPlaybackId String
+  durationNs Int
+}
+
+type Creator {
+  name String
+  about String
+  outlinks Outlink[]
+}
+
+type Outlink {
+  type OutlinkType
+  uri String
+}
+
+enum OutlinkType {
+  Unknown
+  Vimeo
+  YouTube
+  SoundCloud
+  Bandcamp
+}
+
 /// AuthToken
 
 model AuthToken {
