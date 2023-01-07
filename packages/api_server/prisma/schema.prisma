@@ -85,7 +85,8 @@ type UserEnterChatEvent {
 
 /// Playbill
 
-type Playbill {
+model Playbill {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   dateCreated DateTime
   acts Act[]
 }
