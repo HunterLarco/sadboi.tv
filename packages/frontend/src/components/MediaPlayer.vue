@@ -3,7 +3,7 @@ import '@mux/mux-player';
 </script>
 
 <template>
-  <div class="Host">
+  <div class="MediaPlayer">
     <mux-player
       playback-id="S5n1D6XcFsEpc00ae01fILuJXUPEkwdJUb01uIqSfUKlbM"
       autoplay
@@ -15,7 +15,7 @@ import '@mux/mux-player';
 <style scoped lang="scss">
 @import '@/styles/layout';
 
-.Host {
+.MediaPlayer {
   & mux-player {
     @include layout-fill;
 
