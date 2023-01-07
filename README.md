@@ -87,3 +87,4 @@ npm run lint:fix
 ## Useful Tools
 
 - HTML meta tag generator: https://metatags.io/
+- Favicon generator: https://favicon.io/favicon-converter/
