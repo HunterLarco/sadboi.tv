@@ -1,5 +1,4 @@
-#import 'Playbill.graphql'
-
+#import 'external/Playbill.graphql'
 #import 'external/User.graphql'
 #import 'external/UserHandle.graphql'
 
@@ -80,7 +79,6 @@ type UserEnterChatEvent {
 ### StartShowEvent
 
 type StartShowEvent {
-  startTime: DateTime!
   playbill: Playbill!
 }
 

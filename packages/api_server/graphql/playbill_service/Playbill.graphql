@@ -1,6 +1,8 @@
 #import 'Media.graphql'
 
 type Playbill {
+  id: ID!
+  startTime: DateTime!
   acts: [Act!]!
 }
 
@@ -14,3 +16,7 @@ enum ActType {
   Content
   Bump
 }
+
+### Scalars
+
+scalar DateTime

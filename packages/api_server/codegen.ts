@@ -25,7 +25,7 @@ const kResolverConfig = {
   mappers: kMappers,
 };
 
-const kServiceList = ['broadcast_service', 'user_service'];
+const kServiceList = ['broadcast_service', 'playbill_service', 'user_service'];
 
 const config: CodegenConfig = {
   generates: {
