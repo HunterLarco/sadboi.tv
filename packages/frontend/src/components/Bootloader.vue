@@ -1,35 +1,59 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
 
-import { useUserStore } from '@/store/user';
-
-const userStore = useUserStore();
+import type SadboiBroadcastType from '@/components/SadboiBroadcast.vue';
+import type { useBroadcastStore as useBroadcastStoreType } from '@/store/broadcast';
+import type { useGridStore as useGridStoreType } from '@/store/grid';
+import type { useUserStore as useUserStoreType } from '@/store/user';
 
 const emit = defineEmits(['enter']);
 
-/// Real progress bar.
+const userStore = shallowRef<ReturnType<typeof useUserStoreType>>();
+const gridStore = shallowRef<ReturnType<typeof useGridStoreType>>();
+const broadcastStore = shallowRef<ReturnType<typeof useBroadcastStoreType>>();
+const appComponent = shallowRef<typeof SadboiBroadcastType>();
 
-const progress = computed(
-  () => fakeProgress.value + (userStore.completedInitialLoad ? 0.2 : 0)
-);
+onMounted(async () => {
+  // The bootloader needs to do a few things:
+  //
+  // 1. Load each Pinia store and retain a pointer to them. We do this because
+  //    our Pinia stores need to both initialize their data and because they
+  //    contain Apollo Queries. Apollo Queries stop updating when they're not
+  //    active in a mounted component. However, for our stores we always want
+  //    them to be active.
+  // 2. Load the main sadboi component. This will be rendered when we're ready
+  //    to transition from the bootloader.
+  // 3. Load the fonts used by the rest of the application.
 
-/// Fake progress bar.
+  /// 1. Load the stores.
 
-const fakeProgress = ref(0);
+  const { useUserStore } = await import('@/store/user');
+  userStore.value = useUserStore();
 
-onMounted(() => {
-  increaseProgressBar();
+  const { useGridStore } = await import('@/store/grid');
+  gridStore.value = useGridStore();
+
+  const { useBroadcastStore } = await import('@/store/broadcast');
+  broadcastStore.value = useBroadcastStore();
+
+  /// 2. Load the main sadboi component.
+
+  const appModule = await import('@/components/SadboiBroadcast.vue');
+  appComponent.value = appModule.default;
 });
 
-function increaseProgressBar() {
-  fakeProgress.value += Math.random() * 0.05;
+/// Calculate progress.
 
-  if (fakeProgress.value >= 0.8) {
-    fakeProgress.value = 0.8;
-  } else {
-    setTimeout(increaseProgressBar, Math.random() * 50 + 25);
-  }
-}
+const progress = computed(() => {
+  const steps: Array<boolean> = [
+    !!userStore.value?.completedInitialLoad,
+    !!gridStore.value,
+    !!broadcastStore.value,
+    !!appComponent.value,
+  ];
+
+  return steps.filter((step) => step).length / steps.length;
+});
 
 /// Watch for "Enter" key-press.
 
@@ -46,7 +70,7 @@ watch(progress, () => {
 });
 
 function emitEnter() {
-  emit('enter');
+  emit('enter', appComponent.value);
 }
 </script>
 
