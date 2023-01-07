@@ -52,7 +52,7 @@ async function logout() {
 }
 
 .HiddenLogoutButton {
-  background: var(--grid-titlebar-background);
+  background: var(--grid-page-background);
   height: 48px;
   width: 48px;
 }
