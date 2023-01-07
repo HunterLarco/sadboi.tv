@@ -69,7 +69,7 @@ function sendMessage(event: KeyboardEvent) {
     background: var(--grid-icon-background);
     content: '';
     display: block;
-    mix-blend-mode: overlay;
+    mix-blend-mode: var(--grid-icon-blend-mode);
     z-index: -1;
   }
 

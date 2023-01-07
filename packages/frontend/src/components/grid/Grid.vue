@@ -23,13 +23,18 @@ const gridStore = useGridStore();
 <style scoped lang="scss">
 .Grid {
   --grid-page-background: #000;
-  --grid-titlebar-background: #1E1D1E;
-  --grid-icon-background: #FFF;
+  --grid-titlebar-background: #1e1d1e;
+  --grid-icon-background: #fff;
+  --grid-icon-blend-mode: overlay;
+  --grid-dock-background: repeat 25px 25px
+    url('@/assets/images/GridOutline.svg');
 
   &.Hud {
     --grid-page-background: #{rgba(#000, 0.5)};
     --grid-titlebar-background: #{rgba(#000, 0.75)};
-    --grid-icon-background: ${rgba(#000, 0.25)};
+    --grid-icon-background: none;
+    --grid-icon-blend-mode: normal;
+    --grid-dock-background: #{rgba(#000, 0.25)};
   }
 }
 
