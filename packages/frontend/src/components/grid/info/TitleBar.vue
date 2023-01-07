@@ -27,7 +27,7 @@ const gridStore = useGridStore();
   @include fonts-body;
   @include layout-vertical-center;
 
-  background: var(--secondary-background);
+  background: var(--grid-titlebar-background);
   color: #d3b7ff;
   flex-grow: 1;
   overflow: hidden;
@@ -46,7 +46,7 @@ const gridStore = useGridStore();
   &::before {
     @include layout-fill;
 
-    background: var(--dock-icon-background);
+    background: var(--grid-icon-background);
     content: '';
     display: block;
     mix-blend-mode: overlay;

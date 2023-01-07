@@ -23,7 +23,7 @@ import TitleBar from '@/components/grid/settings/TitleBar.vue';
 }
 
 .SettingsForm {
-  background: var(--primary-background);
+  background: var(--grid-page-background);
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: scroll;

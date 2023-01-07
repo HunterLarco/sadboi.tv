@@ -22,14 +22,14 @@ const gridStore = useGridStore();
 
 <style scoped lang="scss">
 .Grid {
-  --primary-background: #000;
-  --secondary-background: #1E1D1E;
-  --dock-icon-background: #FFF;
+  --grid-page-background: #000;
+  --grid-titlebar-background: #1E1D1E;
+  --grid-icon-background: #FFF;
 
   &.Hud {
-    --primary-background: #{rgba(#000, 0.5)};
-    --secondary-background: #{rgba(#000, 0.75)};
-    --dock-icon-background: ${rgba(#000, 0.25)};
+    --grid-page-background: #{rgba(#000, 0.5)};
+    --grid-titlebar-background: #{rgba(#000, 0.75)};
+    --grid-icon-background: ${rgba(#000, 0.25)};
   }
 }
 

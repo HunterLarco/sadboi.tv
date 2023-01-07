@@ -116,7 +116,7 @@ function scrollToBottom() {
 
 <style scoped lang="scss">
 .BroadcastEvents {
-  background: var(--primary-background);
+  background: var(--grid-page-background);
 }
 
 .Events {

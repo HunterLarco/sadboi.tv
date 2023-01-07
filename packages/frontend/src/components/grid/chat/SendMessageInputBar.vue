@@ -47,7 +47,7 @@ function sendMessage(event: KeyboardEvent) {
   & input {
     @include fonts-body;
 
-    background: var(--secondary-background);
+    background: var(--grid-titlebar-background);
     flex-grow: 1;
     outline: none;
     border: none;
@@ -66,7 +66,7 @@ function sendMessage(event: KeyboardEvent) {
   &::before {
     @include layout-fill;
 
-    background: var(--dock-icon-background);
+    background: var(--grid-icon-background);
     content: '';
     display: block;
     mix-blend-mode: overlay;

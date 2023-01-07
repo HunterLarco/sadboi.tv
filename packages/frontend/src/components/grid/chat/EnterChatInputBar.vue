@@ -91,7 +91,7 @@ async function enterChat() {
 .HandleEditor {
   @include layout-horizontal;
 
-  background: var(--secondary-background);
+  background: var(--grid-titlebar-background);
   cursor: text;
   height: 48px;
   padding: 0 20px;
@@ -127,7 +127,7 @@ async function enterChat() {
   @include fonts-notes;
   @include layout-horizontal;
 
-  background: var(--secondary-background);
+  background: var(--grid-titlebar-background);
   cursor: pointer;
   flex-grow: 1;
   font-weight: 600;
@@ -159,7 +159,7 @@ async function enterChat() {
   &::before {
     @include layout-fill;
 
-    background: var(--dock-icon-background);
+    background: var(--grid-icon-background);
     content: '';
     display: block;
     mix-blend-mode: overlay;
