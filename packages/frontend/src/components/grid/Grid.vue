@@ -28,6 +28,7 @@ const gridStore = useGridStore();
   --grid-icon-blend-mode: overlay;
   --grid-dock-background: repeat 25px 25px
     url('@/assets/images/GridOutline.svg');
+  --grid-input-border: #1E1D1E;
 
   &.Hud {
     --grid-page-background: #{rgba(#000, 0.5)};
@@ -35,6 +36,7 @@ const gridStore = useGridStore();
     --grid-icon-background: none;
     --grid-icon-blend-mode: normal;
     --grid-dock-background: #{rgba(#000, 0.25)};
+    --grid-input-border: #{rgba(#FFF, 0.25)};
   }
 }
 
