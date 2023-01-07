@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 
 import BroadcastEvent from '@/components/grid/chat/BroadcastEvent.vue';
 import UnreadBanner from '@/components/grid/chat/UnreadBanner.vue';
 import { useBroadcastStore } from '@/store/broadcast';
-import { useGridStore } from '@/store/grid';
 
 const broadcastStore = useBroadcastStore();
-const gridStore = useGridStore();
 
 // When true, indicates that as new content is rendered, we update the chat's
 // scroll position to view the new content.
@@ -19,22 +17,13 @@ const unreadEvents = ref(0);
 
 /// Auto-scroll Watcher
 
-watch(
-  () => gridStore.page,
-  () => {
-    if (gridStore.page != 'Chat') {
-      // Automatically stop scrolling when the chat window isn't visible. This
-      // way we preserve the user's scroll location.
-      isAutoScrolling.value = false;
-    } else {
-      // When we open the Chat window, if we're already at the bottom of the
-      // scroll area, restore `isAutoScrolling` to true.
-      nextTick(() => {
-        onScroll();
-      });
-    }
-  }
-);
+onMounted(() => {
+  // On the first render of this component, scroll to the bottom.
+  isAutoScrolling.value = true;
+  nextTick(() => {
+    scrollToBottom();
+  });
+});
 
 watch(ascendingEvents, (after, before) => {
   // If the messages are being appended as new messages. Whereas will be false
