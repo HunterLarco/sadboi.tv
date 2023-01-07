@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Grid from '@/components/grid/Grid.vue';
 import MediaPlayer from '@/components/MediaPlayer.vue';
 import PreShowBillboard from '@/components/PreShowBillboard.vue';
 import Retroscape from '@/components/Retroscape.vue';
 import SadboiFlourish from '@/components/SadboiFlourish.vue';
+import Grid from '@/components/grid/Grid.vue';
 </script>
 
 <template>
