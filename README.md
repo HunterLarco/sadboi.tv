@@ -30,13 +30,13 @@ docker run -p 27017:27017 mongo --replSet rs0
 ```
 
 Once running, initiate the replica set and configure mongosh to use our
-database (named "db").
+database (named "sadboi").
 
 ```
 mongosh
 
 > rs.initiate()
-> use db
+> use sadboi
 ```
 
 Last but not least, you'll need to publish our db indices to mongo:
@@ -83,3 +83,7 @@ npm run lint:fix
 
 - Demystifying Cache Normalization: https://www.apollographql.com/blog/apollo-client/caching/demystifying-cache-normalization/
 - Principled GraphQL: https://principledgraphql.com/
+
+## Useful Tools
+
+- HTML meta tag generator: https://metatags.io/
