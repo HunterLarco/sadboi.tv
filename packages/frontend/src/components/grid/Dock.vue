@@ -112,7 +112,6 @@ const rightIcons = ref<Array<IconDefinition>>([
     content: '';
     display: block;
     mix-blend-mode: var(--grid-icon-blend-mode);
-    z-index: -1;
   }
 }
 
