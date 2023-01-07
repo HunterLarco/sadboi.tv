@@ -38,7 +38,7 @@ async function logout() {
 }
 
 .LogoutButton {
-  background: #000;
+  background: var(--primary-background);
   cursor: pointer;
   flex-shrink: 0;
   height: 48px;
@@ -52,7 +52,7 @@ async function logout() {
 }
 
 .HiddenLogoutButton {
-  background: #000;
+  background: var(--primary-background);
   height: 48px;
   width: 48px;
 }
@@ -68,7 +68,7 @@ async function logout() {
   &::before {
     @include layout-fill;
 
-    background: #fff;
+    background: var(--dock-icon-background);
     content: '';
     display: block;
     mix-blend-mode: overlay;
@@ -85,7 +85,7 @@ async function logout() {
   @include fonts-body;
   @include layout-vertical-center;
 
-  background: #1e1d1e;
+  background: var(--secondary-background);
   color: #d3b7ff;
   flex-grow: 1;
   overflow: hidden;

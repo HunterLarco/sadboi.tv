@@ -10,7 +10,7 @@ const gridStore = useGridStore();
 </script>
 
 <template>
-  <Layout>
+  <Layout class="Grid Hud">
     <div class="Router">
       <ChatPage v-show="gridStore.page == 'Chat'" />
       <SettingsPage v-if="gridStore.page == 'Settings'" />
@@ -21,6 +21,18 @@ const gridStore = useGridStore();
 </template>
 
 <style scoped lang="scss">
+.Grid {
+  --primary-background: #000;
+  --secondary-background: #1E1D1E;
+  --dock-icon-background: #FFF;
+
+  &.Hud {
+    --primary-background: #{rgba(#000, 0.5)};
+    --secondary-background: #{rgba(#000, 0.75)};
+    --dock-icon-background: ${rgba(#000, 0.25)};
+  }
+}
+
 .Router {
   flex-grow: 1;
   overflow: hidden;

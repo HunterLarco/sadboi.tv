@@ -9,7 +9,7 @@ import type {
 } from '@generated/graphql/operations';
 import cloneDeep from 'clone-deep';
 import { defineStore } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 export const useBroadcastStore = defineStore('broadcast', () => {
   const broadcastEventHistoryQuery = useGetBroadcastEventHistoryQuery();
@@ -71,5 +71,7 @@ export const useBroadcastStore = defineStore('broadcast', () => {
     await mutate();
   };
 
-  return { events, fetchMoreEvents, sendMessage };
+  const showingContent = ref(true);
+
+  return { showingContent, events, fetchMoreEvents, sendMessage };
 });
