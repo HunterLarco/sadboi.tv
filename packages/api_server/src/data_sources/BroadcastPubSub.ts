@@ -11,13 +11,14 @@ const inMemoryPubSub = new PubSub();
  */
 export default class BroadcastPubSub {
   publish(event: BroadcastEvent) {
-    inMemoryPubSub.publish('Global', { event });
+    const broadcast: BroadcastSubscription = { event };
+    inMemoryPubSub.publish('Global', broadcast);
   }
 
   async *subscribe(): AsyncIterableIterator<BroadcastSubscription> {
     // @ts-expect-error TS2504
-    for await (const event of inMemoryPubSub.asyncIterator('Global')) {
-      yield event;
+    for await (const broadcast of inMemoryPubSub.asyncIterator('Global')) {
+      yield broadcast;
     }
   }
 }
