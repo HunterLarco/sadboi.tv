@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 
 import type { GlobalContext } from '@/GlobalContext';
 import BroadcastEventDataSource from '@/data_sources/BroadcastEventDataSource';
-import BroadcastEventPubSub from '@/data_sources/BroadcastEventPubSub';
+import BroadcastPubSub from '@/data_sources/BroadcastPubSub';
 import PlaybillDataSource from '@/data_sources/PlaybillDataSource';
 
 function createCurrentPlaybill(startDate: Date): Omit<Playbill, 'id'> {
@@ -26,7 +26,7 @@ export async function createAndBroadcastShow(args: {
   const broadcastEventDataSource = new BroadcastEventDataSource({
     prismaClient: globalContext.prisma,
   });
-  const broadcastEventPubSub = new BroadcastEventPubSub();
+  const broadcastPubSub = new BroadcastPubSub();
 
   console.log(`Creating playbill at ${new Date()}.`);
   const playbill = await playbillDataSource.createPlaybill(

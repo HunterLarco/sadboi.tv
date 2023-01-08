@@ -4,14 +4,14 @@ import type { User } from '@prisma/client';
 import type { GlobalContext } from '@/GlobalContext';
 import AuthTokenDataSource from '@/data_sources/AuthTokenDataSource';
 import BroadcastEventDataSource from '@/data_sources/BroadcastEventDataSource';
-import BroadcastEventPubSub from '@/data_sources/BroadcastEventPubSub';
+import BroadcastPubSub from '@/data_sources/BroadcastPubSub';
 import PlaybillDataSource from '@/data_sources/PlaybillDataSource';
 import UserDataSource from '@/data_sources/UserDataSource';
 
 type DataSources = {
   AuthToken: AuthTokenDataSource;
   BroadcastEvent: BroadcastEventDataSource;
-  BroadcastEventPubSub: BroadcastEventPubSub;
+  BroadcastPubSub: BroadcastPubSub;
   Playbill: PlaybillDataSource;
   User: UserDataSource;
 };
@@ -33,7 +33,7 @@ export async function createRequestContext(args: {
     BroadcastEvent: new BroadcastEventDataSource({
       prismaClient: globalContext.prisma,
     }),
-    BroadcastEventPubSub: new BroadcastEventPubSub(),
+    BroadcastPubSub: new BroadcastPubSub(),
     Playbill: new PlaybillDataSource({
       prismaClient: globalContext.prisma,
     }),
