@@ -1,11 +1,11 @@
 import {
-  WatchBroadcastEventHistoryDocument,
+  WatchBroadcastDocument,
   useGetBroadcastEventHistoryQuery,
   useSendChatMessageMutation,
 } from '@generated/graphql/operations';
 import type {
-  WatchBroadcastEventHistorySubscription,
-  WatchBroadcastEventHistorySubscriptionVariables,
+  WatchBroadcastSubscription,
+  WatchBroadcastSubscriptionVariables,
 } from '@generated/graphql/operations';
 import cloneDeep from 'clone-deep';
 import { defineStore } from 'pinia';
@@ -15,15 +15,16 @@ export const useBroadcastStore = defineStore('broadcast', () => {
   const broadcastEventHistoryQuery = useGetBroadcastEventHistoryQuery();
 
   broadcastEventHistoryQuery.subscribeToMore<
-    WatchBroadcastEventHistorySubscription,
-    WatchBroadcastEventHistorySubscriptionVariables
+    WatchBroadcastSubscription,
+    WatchBroadcastSubscriptionVariables
   >(() => ({
-    document: WatchBroadcastEventHistoryDocument,
+    document: WatchBroadcastDocument,
     updateQuery(previousResult, { subscriptionData }) {
       const newResult = cloneDeep(previousResult);
-      newResult.broadcastEventHistory.events.unshift(
-        subscriptionData.data.broadcastEvent
-      );
+      const { event } = subscriptionData.data.broadcast;
+      if (event) {
+        newResult.broadcastEventHistory.events.unshift(event);
+      }
       return newResult;
     },
   }));
