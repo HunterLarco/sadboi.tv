@@ -55,7 +55,6 @@ type BroadcastEventDetails {
   chatMessage ChatMessageEvent?
   userHandleChange UserHandleChangeEvent?
   userEnterChat UserEnterChatEvent?
-  startShow StartShowEvent?
 }
 
 type ChatMessageEvent {
@@ -82,10 +81,6 @@ type UserHandleChangeEvent {
 type UserEnterChatEvent {
   userId String
   preservedHandle UserHandle
-}
-
-type StartShowEvent {
-  playbillId String
 }
 
 /// Playbill

@@ -1,0 +1,26 @@
+#import 'external/Playbill.graphql'
+
+type BroadcastState {
+  """
+  Describes the current state of the active broadcast (if any).
+  """
+  active: ActiveBroadcast
+
+  """
+  Describes the next broadcast.
+  """
+  next: NextBroadcast!
+}
+
+type ActiveBroadcast {
+  startDate: DateTime!
+  playbill: Playbill!
+}
+
+type NextBroadcast {
+  startDate: DateTime!
+}
+
+### Scalars
+
+scalar DateTime

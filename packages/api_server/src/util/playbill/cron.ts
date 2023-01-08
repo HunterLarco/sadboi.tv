@@ -36,10 +36,8 @@ export async function createAndBroadcastShow(args: {
   console.log(
     `Broadcasting playbill scheduled to start at ${playbill.startDate}.`
   );
-  const broadcastEvent = await broadcastEventDataSource.createStartShowEvent({
-    playbillId: playbill.id,
-  });
-  broadcastEventPubSub.publish(broadcastEvent);
+
+  // TODO
 }
 
 export function startPlaybillCron(args: { globalContext: GlobalContext }) {

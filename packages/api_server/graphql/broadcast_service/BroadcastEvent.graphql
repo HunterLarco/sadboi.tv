@@ -15,7 +15,6 @@ type BroadcastEventDetails {
   chatMessage: ChatMessageEvent
   userHandleChange: UserHandleChangeEvent
   userEnterChat: UserEnterChatEvent
-  startShow: StartShowEvent
 }
 
 ### ChatMessageEvent
@@ -74,12 +73,6 @@ type UserEnterChatEvent {
   sent, this field preserves that data.
   """
   preservedHandle: UserHandle!
-}
-
-### StartShowEvent
-
-type StartShowEvent {
-  playbill: Playbill!
 }
 
 ### Scalars
