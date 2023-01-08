@@ -55,6 +55,7 @@ type BroadcastEventDetails {
   chatMessage ChatMessageEvent?
   userHandleChange UserHandleChangeEvent?
   userEnterChat UserEnterChatEvent?
+  startShow StartShowEvent?
 }
 
 type ChatMessageEvent {
@@ -83,11 +84,15 @@ type UserEnterChatEvent {
   preservedHandle UserHandle
 }
 
+type StartShowEvent {
+  playbillId String
+}
+
 /// Playbill
 
 model Playbill {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  dateCreated DateTime
+  startDate DateTime
   acts Act[]
 }
 

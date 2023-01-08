@@ -73,6 +73,22 @@ export default class BroadcastEventDataSource {
     });
   }
 
+  async createStartShowEvent(args: {
+    playbillId: string;
+  }): Promise<BroadcastEvent> {
+    const { playbillId } = args;
+
+    return await this.#prismaClient.broadcastEvent.create({
+      data: {
+        details: {
+          startShow: {
+            playbillId,
+          },
+        },
+      },
+    });
+  }
+
   /**
    * Queries for event history chronologically.
    *
