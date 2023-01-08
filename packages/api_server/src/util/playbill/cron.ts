@@ -33,7 +33,9 @@ export async function createAndBroadcastShow(args: {
     createCurrentPlaybill(startDate)
   );
 
-  console.log(`Broadcasting playbill.`);
+  console.log(
+    `Broadcasting playbill scheduled to start at ${playbill.startDate}.`
+  );
   const broadcastEvent = await broadcastEventDataSource.createStartShowEvent({
     playbillId: playbill.id,
   });
