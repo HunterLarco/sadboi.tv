@@ -36,8 +36,19 @@ export async function createAndBroadcastShow(args: {
   console.log(
     `Broadcasting playbill scheduled to start at ${playbill.startDate}.`
   );
+  broadcastPubSub.publishState({
+    active: {
+      playbill,
+    },
+    next: {
+      startDate: getNextStartDate(),
+    },
+  });
+}
 
+export function getNextStartDate() {
   // TODO
+  return new Date();
 }
 
 export function startPlaybillCron(args: { globalContext: GlobalContext }) {

@@ -13,7 +13,6 @@ type BroadcastState {
 }
 
 type ActiveBroadcast {
-  startDate: DateTime!
   playbill: Playbill!
 }
 
