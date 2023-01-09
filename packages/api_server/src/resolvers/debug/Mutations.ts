@@ -1,6 +1,6 @@
 import { DebugMutationsResolvers } from '@generated/graphql/debug_service/resolvers';
 
-import { createAndBroadcastShow } from '@/util/playbill/cron';
+import { createAndBroadcastShow } from '@/util/playbill/broadcast';
 
 export const resolvers: DebugMutationsResolvers = {
   async startShow(_0, { delay }, { globalContext }) {

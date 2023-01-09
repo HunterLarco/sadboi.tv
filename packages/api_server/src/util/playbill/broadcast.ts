@@ -1,4 +1,3 @@
-import type { Playbill } from '@prisma/client';
 import { CronJob } from 'cron';
 import { DateTime } from 'luxon';
 
@@ -6,13 +5,7 @@ import type { GlobalContext } from '@/GlobalContext';
 import BroadcastEventDataSource from '@/data_sources/BroadcastEventDataSource';
 import BroadcastPubSub from '@/data_sources/BroadcastPubSub';
 import PlaybillDataSource from '@/data_sources/PlaybillDataSource';
-
-function createCurrentPlaybill(startDate: Date): Omit<Playbill, 'id'> {
-  return {
-    startDate,
-    acts: [],
-  };
-}
+import { createCurrentPlaybill } from '@/util/playbill/data';
 
 export async function createAndBroadcastShow(args: {
   startDate: Date;
@@ -47,8 +40,20 @@ export async function createAndBroadcastShow(args: {
 }
 
 export function getNextStartDate() {
-  // TODO
-  return new Date();
+  const candidate = DateTime.now()
+    .setZone('America/New_York')
+    .set({
+      hour: 22,
+      minute: 0,
+      second: 0,
+    })
+    .toUTC();
+
+  if (candidate.date() < Date.now()) {
+    return candidate.plus({ days: 1 }).toJSDate();
+  } else {
+    return candidate.toJSDate();
+  }
 }
 
 export function startPlaybillCron(args: { globalContext: GlobalContext }) {

@@ -11,7 +11,7 @@ import { WebSocketServer } from 'ws';
 import { createGlobalContext } from '@/GlobalContext';
 import { createRequestContext } from '@/RequestContext';
 import schema from '@/schema';
-import { startPlaybillCron } from '@/util/playbill/cron';
+import { startPlaybillCron } from '@/util/playbill/broadcast';
 
 async function main() {
   const globalContext = await createGlobalContext();
