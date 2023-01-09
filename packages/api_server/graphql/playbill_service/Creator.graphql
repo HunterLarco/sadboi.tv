@@ -1,0 +1,7 @@
+#import 'Outlink.graphql'
+
+type Creator {
+  name: String!
+  about: String!
+  outlinks: [Outlink!]!
+}

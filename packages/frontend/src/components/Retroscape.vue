@@ -17,6 +17,7 @@
   position: fixed;
   user-select: none;
   width: 100%;
+  z-index: -1;
 
   img {
     width: 100%;

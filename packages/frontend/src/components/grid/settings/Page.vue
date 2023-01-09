@@ -5,7 +5,7 @@ import TitleBar from '@/components/grid/settings/TitleBar.vue';
 
 <template>
   <div class="SettingsPage">
-    <div class="SettingsForm">
+    <div class="SettingsFormFrame">
       <SettingsForm />
     </div>
     <TitleBar />
@@ -22,8 +22,8 @@ import TitleBar from '@/components/grid/settings/TitleBar.vue';
   height: 100%;
 }
 
-.SettingsForm {
-  background: #000;
+.SettingsFormFrame {
+  background: var(--grid-page-background);
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: scroll;

@@ -108,13 +108,10 @@ const rightIcons = ref<Array<IconDefinition>>([
   &::before {
     @include layout-fill;
 
-    background-image: url('@/assets/images/GridOutline.svg');
-    background-position: 25px 25px;
-    background-repeat: repeat;
+    background: var(--grid-dock-background);
     content: '';
     display: block;
-    mix-blend-mode: overlay;
-    z-index: -1;
+    mix-blend-mode: var(--grid-icon-blend-mode);
   }
 }
 
@@ -144,12 +141,12 @@ const rightIcons = ref<Array<IconDefinition>>([
   }
 
   &:hover::before {
-    background: #fff;
+    background: var(--grid-icon-background);
     bottom: 1px;
     content: '';
     display: block;
     left: 1px;
-    mix-blend-mode: overlay;
+    mix-blend-mode: var(--grid-icon-blend-mode);
     position: absolute;
     right: 1px;
     top: 1px;

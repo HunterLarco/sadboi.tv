@@ -1,11 +1,12 @@
 #import 'BroadcastEvent.graphql'
+#import 'BroadcastState.graphql'
 
 type Subscription {
   """
   Subscription for all broadcast events (show start times, chat messages,
   etc...).
   """
-  broadcastEvent: BroadcastEvent!
+  broadcast: BroadcastSubscription!
 }
 
 type Query {
@@ -23,7 +24,14 @@ type Mutation {
   sendChatMessage(request: SendChatMessageRequest!): SendChatMessageResponse!
 }
 
-### viewingRoomHistory
+### broadcast
+
+type BroadcastSubscription {
+  event: BroadcastEvent
+  state: BroadcastState
+}
+
+### broadcastEventHistory
 
 input BroadcastEventHistoryRequest {
   cursor: ID

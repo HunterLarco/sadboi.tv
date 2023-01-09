@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MediaPlayer from '@/components/MediaPlayer.vue';
 import PreShowBillboard from '@/components/PreShowBillboard.vue';
 import Retroscape from '@/components/Retroscape.vue';
 import SadboiFlourish from '@/components/SadboiFlourish.vue';
@@ -10,6 +11,7 @@ import Grid from '@/components/grid/Grid.vue';
     <Retroscape />
     <SadboiFlourish class="SadboiFlourish" />
     <PreShowBillboard class="Billboard" />
+    <MediaPlayer class="MediaPlayer" />
     <Grid class="Grid" />
   </div>
 </template>
@@ -48,6 +50,10 @@ import Grid from '@/components/grid/Grid.vue';
     padding-left: 75px;
     padding-top: 80px;
   }
+}
+
+.MediaPlayer {
+  @include layout-fill;
 }
 
 .Grid {

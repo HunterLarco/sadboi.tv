@@ -1,0 +1,22 @@
+#import 'Media.graphql'
+
+type Playbill {
+  id: ID!
+  startTime: DateTime!
+  acts: [Act!]!
+}
+
+type Act {
+  type: ActType!
+  media: Media!
+  whyWeChoseThis: String!
+}
+
+enum ActType {
+  Content
+  Bump
+}
+
+### Scalars
+
+scalar DateTime

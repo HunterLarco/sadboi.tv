@@ -65,7 +65,7 @@ onBeforeUnmount(() => {
 }
 
 .HandleNameInput {
-  border: 2px solid #1e1d1e;
+  border: 2px solid var(--grid-input-border);
   padding: 15px 23px;
 }
 </style>

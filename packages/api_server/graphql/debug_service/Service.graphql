@@ -1,0 +1,16 @@
+type Mutation {
+  debug: DebugMutations!
+}
+
+type DebugMutations {
+  """
+  Triggers a new show to start immediately.
+
+  delay is measured in seconds.
+  """
+  startShow(delay: Int!): Void
+}
+
+### Scalars
+
+scalar Void

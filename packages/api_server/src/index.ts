@@ -11,6 +11,7 @@ import { WebSocketServer } from 'ws';
 import { createGlobalContext } from '@/GlobalContext';
 import { createRequestContext } from '@/RequestContext';
 import schema from '@/schema';
+import { startPlaybillCron } from '@/util/playbill/cron';
 
 async function main() {
   const globalContext = await createGlobalContext();
@@ -84,6 +85,10 @@ async function main() {
   );
   console.log(`🚀 Server listening at: localhost:4000`);
   console.log(`🚀 Running in ${process.env.NODE_ENV} mode`);
+
+  /// Start Playbill CRON Job
+
+  startPlaybillCron({ globalContext });
 }
 
 console.log('Starting the server...');
