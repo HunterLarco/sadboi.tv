@@ -26,7 +26,7 @@ export const resolvers: MutationResolvers = {
         text: request.payload.text.value,
       });
 
-    dataSources.BroadcastPubSub.publish(broadcastEvent);
+    dataSources.BroadcastPubSub.publishEvent(broadcastEvent);
 
     return {
       event: broadcastEvent,
@@ -45,7 +45,7 @@ export const resolvers: MutationResolvers = {
         actor,
       });
 
-    dataSources.BroadcastPubSub.publish(broadcastEvent);
+    dataSources.BroadcastPubSub.publishEvent(broadcastEvent);
 
     return {
       event: broadcastEvent,

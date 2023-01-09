@@ -11,7 +11,7 @@ const inMemoryPubSub = new PubSub();
  * In-memory pubsub mechanism for game events.
  */
 export default class BroadcastPubSub {
-  async publish(event: BroadcastEvent) {
+  async publishEvent(event: BroadcastEvent) {
     const broadcast: BroadcastSubscription = { event: await event };
     inMemoryPubSub.publish('Global', broadcast);
   }

@@ -73,7 +73,7 @@ export const resolvers: MutationResolvers = {
           after: updatedUser.handle,
         });
 
-      dataSources.BroadcastPubSub.publish(broadcastEvent);
+      dataSources.BroadcastPubSub.publishEvent(broadcastEvent);
     }
 
     return updatedUser;
