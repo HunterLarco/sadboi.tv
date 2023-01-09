@@ -11,7 +11,7 @@ type Media {
 }
 
 type MediaCredit {
-  role: String!
+  role: String
   creator: Creator!
 }
 

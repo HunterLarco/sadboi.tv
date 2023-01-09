@@ -1,6 +1,9 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const kMappers = {
+  Act: '@prisma/client#Act as ActModel',
+  ActType: '@prisma/client#ActType as ActTypeModel',
+  AudioPlayback: '@prisma/client#AudioPlayback as AudioPlaybackModel',
   BroadcastEvent: '@prisma/client#BroadcastEvent as BroadcastEventModel',
   BroadcastEventDetails:
     '@prisma/client#BroadcastEventDetails as BroadcastEventDetailsModel',
@@ -9,6 +12,12 @@ const kMappers = {
     '@prisma/client#ChatMessagePayload as ChatMessagePayloadModel',
   ChatMessageTextPayload:
     '@prisma/client#ChatMessageTextPayload as ChatMessageTextPayloadModel',
+  Creator: '@prisma/client#Creator as CreatorModel',
+  Media: '@prisma/client#Media as MediaModel',
+  MediaCredit: '@prisma/client#MediaCredit as MediaCreditModel',
+  MediaPlayback: '@prisma/client#MediaPlayback as MediaPlaybackModel',
+  Outlink: '@prisma/client#Outlink as OutlinkModel',
+  Playbill: '@prisma/client#Playbill as PlaybillModel',
   User: '@prisma/client#User as UserModel',
   UserBadge: '@prisma/client#UserBadge as UserBadgeModel',
   UserEnterChatEvent:
@@ -17,8 +26,8 @@ const kMappers = {
   UserHandleChangeEvent:
     '@prisma/client#UserHandleChangeEvent as UserHandleChangeEventModel',
   UserHandleColor: '@prisma/client#UserHandleColor as UserHandleColorModel',
+  VideoPlayback: '@prisma/client#VideoPlayback as VideoPlaybackModel',
   Viewer: '@prisma/client#User as UserModel',
-  Playbill: '@prisma/client#Playbill as PlaybillModel',
 };
 
 const kResolverConfig = {
