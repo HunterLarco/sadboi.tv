@@ -5,6 +5,7 @@ import * as graphqlScalars from 'graphql-scalars';
 
 import BroadcastResolvers from '@/resolvers/broadcast';
 import DebugResolvers from '@/resolvers/debug';
+import PlaybillResolvers from '@/resolvers/playbill';
 import UserResolvers from '@/resolvers/user';
 
 export default makeExecutableSchema({
@@ -12,6 +13,7 @@ export default makeExecutableSchema({
   resolvers: mergeResolvers([
     BroadcastResolvers,
     DebugResolvers,
+    PlaybillResolvers,
     UserResolvers,
     graphqlScalars.resolvers,
   ]),

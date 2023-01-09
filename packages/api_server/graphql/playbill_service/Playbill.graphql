@@ -2,7 +2,7 @@
 
 type Playbill {
   id: ID!
-  startTime: DateTime!
+  startDate: DateTime!
   acts: [Act!]!
 }
 

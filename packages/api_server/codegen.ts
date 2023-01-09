@@ -18,6 +18,7 @@ const kMappers = {
     '@prisma/client#UserHandleChangeEvent as UserHandleChangeEventModel',
   UserHandleColor: '@prisma/client#UserHandleColor as UserHandleColorModel',
   Viewer: '@prisma/client#User as UserModel',
+  Playbill: '@prisma/client#Playbill as PlaybillModel',
 };
 
 const kResolverConfig = {
