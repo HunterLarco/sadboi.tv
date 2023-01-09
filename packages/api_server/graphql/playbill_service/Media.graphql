@@ -3,7 +3,6 @@
 
 type Media {
   title: String!
-  about: String!
 
   credits: [MediaCredit]!
   outlinks: [Outlink]!
