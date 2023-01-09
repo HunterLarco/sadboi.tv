@@ -49,7 +49,7 @@ export function getNextStartDate() {
     })
     .toUTC();
 
-  if (candidate.date() < Date.now()) {
+  if (candidate.toMillis() < DateTime.now().toMillis()) {
     return candidate.plus({ days: 1 }).toJSDate();
   } else {
     return candidate.toJSDate();
