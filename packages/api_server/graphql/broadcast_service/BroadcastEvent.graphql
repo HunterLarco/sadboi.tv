@@ -1,4 +1,3 @@
-#import 'external/Playbill.graphql'
 #import 'external/User.graphql'
 #import 'external/UserHandle.graphql'
 
