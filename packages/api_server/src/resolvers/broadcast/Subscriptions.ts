@@ -3,11 +3,17 @@ import type { SubscriptionResolvers } from '@generated/graphql/broadcast_service
 export const resolvers: SubscriptionResolvers = {
   broadcast: {
     async *subscribe(_0, _1, { dataSources }) {
+      const activePlaybill = await dataSources.Playbill.getLatest();
+
       yield {
         broadcast: {
           state: {
             // TODO: fetch the most recent playbill and evaluate if it's active.
-            active: null,
+            active: activePlaybill
+              ? {
+                  playbill: activePlaybill,
+                }
+              : null,
             next: {
               // TODO: actually compute this.
               startDate: new Date(),

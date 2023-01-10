@@ -18,6 +18,14 @@ export default class PlaybillDataSource {
     });
   }
 
+  async getLatest(): Promise<Playbill | null> {
+    return await this.#prismaClient.playbill.findFirst({
+      orderBy: {
+        startDate: 'desc',
+      },
+    });
+  }
+
   async getByIdOrThrow(id: string): Promise<Playbill> {
     const playbill = await this.getById(id);
     if (!playbill) {
