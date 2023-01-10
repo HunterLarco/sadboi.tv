@@ -62,6 +62,9 @@ export function startPlaybillCron(args: { globalContext: GlobalContext }) {
   new CronJob(
     // 9:55pm on any day.
     //
+    // Note that changing this value will require changes to `getNextStartDate`
+    // as well.
+    //
     // https://crontab.cronhub.io/
     '55 21 * * *',
     () =>
