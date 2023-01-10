@@ -94,7 +94,7 @@ model Playbill {
 type Act {
   type ActType
   media Media
-  whyWeChoseThis String
+  whyWeChoseThis String?
 }
 
 enum ActType {
