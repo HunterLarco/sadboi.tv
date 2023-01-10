@@ -74,7 +74,7 @@ export function createCurrentPlaybill(startDate: Date): Omit<Playbill, 'id'> {
           playback: {
             audio: null,
             video: {
-              muxPlaybackId: 'vl58GhD7800KFaj5h3HbaU01WHfpKmPrjPEcl5101028XSY',
+              muxAssetId: 'MZAd7aOmuWpbn1HuoSdMVOZGPADfVqqAI4ljKYUDbZ00',
             },
           },
         },

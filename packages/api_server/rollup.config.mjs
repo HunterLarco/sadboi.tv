@@ -16,6 +16,7 @@ export default {
     '@apollo/server/plugin/drainHttpServer',
     '@graphql-tools/merge',
     '@graphql-tools/schema',
+    '@mux/mux-node',
     '@prisma/client',
     'body-parser',
     'cors',

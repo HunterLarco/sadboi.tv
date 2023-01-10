@@ -23,8 +23,18 @@ type MediaPlayback {
 
 type VideoPlayback {
   muxPlaybackId: String!
+
+  """
+  Measured in seconds.
+  """
+  duration: Float!
 }
 
 type AudioPlayback {
   muxPlaybackId: String!
+
+  """
+  Measured in seconds.
+  """
+  duration: Float!
 }

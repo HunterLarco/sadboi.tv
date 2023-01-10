@@ -3,6 +3,8 @@ import {
   ActType,
   OutlinkType,
 } from '@generated/graphql/playbill_service/resolvers';
+import type { Asset as MuxAsset } from '@mux/mux-node';
+import { GraphQLError } from 'graphql';
 
 export const resolvers: Resolvers = {
   Playbill: {
@@ -59,23 +61,25 @@ export const resolvers: Resolvers = {
   },
 
   MediaPlayback: {
-    video(parent) {
-      return parent.video;
+    async video(parent, _1, { globalContext: { mux } }) {
+      if (!parent.video) {
+        return null;
+      }
+      const asset = await mux.Video.Assets.get(parent.video.muxAssetId);
+      return {
+        muxPlaybackId: muxPlaybackId(asset),
+        duration: assetDuration(asset),
+      };
     },
-    audio(parent) {
-      return parent.audio;
-    },
-  },
-
-  VideoPlayback: {
-    muxPlaybackId(parent) {
-      return parent.muxPlaybackId;
-    },
-  },
-
-  AudioPlayback: {
-    muxPlaybackId(parent) {
-      return parent.muxPlaybackId;
+    async audio(parent, _1, { globalContext: { mux } }) {
+      if (!parent.audio) {
+        return null;
+      }
+      const asset = await mux.Video.Assets.get(parent.audio.muxAssetId);
+      return {
+        muxPlaybackId: muxPlaybackId(asset),
+        duration: assetDuration(asset),
+      };
     },
   },
 
@@ -108,3 +112,23 @@ export const resolvers: Resolvers = {
     },
   },
 };
+
+function assetDuration(asset: MuxAsset): number {
+  if (asset.duration === undefined) {
+    throw new GraphQLError(`Asset ${asset.id} has no duration.`, {
+      extensions: { code: 'INTERNAL' },
+    });
+  }
+  return asset.duration;
+}
+
+function muxPlaybackId(asset: MuxAsset): string {
+  const playbackIds = asset.playback_ids ?? [];
+  const maybePlaybackId = playbackIds.find(({ policy }) => policy == 'public');
+  if (!maybePlaybackId) {
+    throw new GraphQLError(`Asset ${asset.id} has no public playback ID.`, {
+      extensions: { code: 'INTERNAL' },
+    });
+  }
+  return maybePlaybackId.id;
+}

@@ -11,6 +11,9 @@ And add a new file to `packages/api_server/.env` with the following data.
 
 ```
 DATABASE_URL="mongodb://localhost/db?directConnection=true"
+
+MUX_TOKEN_ID="{{ insert here}}"
+MUX_TOKEN_SECRET="{{ insert here}}"
 ```
 
 Afterwards you should verify that everything installed correctly by building the

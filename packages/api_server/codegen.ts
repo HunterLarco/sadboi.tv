@@ -3,7 +3,6 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const kMappers = {
   Act: '@prisma/client#Act as ActModel',
   ActType: '@prisma/client#ActType as ActTypeModel',
-  AudioPlayback: '@prisma/client#AudioPlayback as AudioPlaybackModel',
   BroadcastEvent: '@prisma/client#BroadcastEvent as BroadcastEventModel',
   BroadcastEventDetails:
     '@prisma/client#BroadcastEventDetails as BroadcastEventDetailsModel',
@@ -26,7 +25,6 @@ const kMappers = {
   UserHandleChangeEvent:
     '@prisma/client#UserHandleChangeEvent as UserHandleChangeEventModel',
   UserHandleColor: '@prisma/client#UserHandleColor as UserHandleColorModel',
-  VideoPlayback: '@prisma/client#VideoPlayback as VideoPlaybackModel',
   Viewer: '@prisma/client#User as UserModel',
 };
 

@@ -121,11 +121,11 @@ type MediaPlayback {
 }
 
 type VideoPlayback {
-  muxPlaybackId String
+  muxAssetId String
 }
 
 type AudioPlayback {
-  muxPlaybackId String
+  muxAssetId String
 }
 
 type Creator {

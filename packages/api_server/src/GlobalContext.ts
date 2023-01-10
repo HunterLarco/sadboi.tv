@@ -1,7 +1,9 @@
+import MuxClient from '@mux/mux-node';
 import { PrismaClient } from '@prisma/client';
 
 export type GlobalContext = {
   prisma: PrismaClient;
+  mux: MuxClient;
 };
 
 export async function createGlobalContext(): Promise<GlobalContext> {
@@ -10,5 +12,6 @@ export async function createGlobalContext(): Promise<GlobalContext> {
 
   return {
     prisma,
+    mux: new MuxClient(),
   };
 }
