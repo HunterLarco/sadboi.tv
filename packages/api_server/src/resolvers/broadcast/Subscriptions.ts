@@ -39,10 +39,7 @@ export const resolvers: SubscriptionResolvers = {
 async function getActivePlaybill(
   requestContext: RequestContext
 ): Promise<Playbill | null> {
-  const {
-    dataSources,
-    globalContext: { mux },
-  } = requestContext;
+  const { dataSources } = requestContext;
 
   const latestPlaybill = await dataSources.Playbill.getLatest();
   if (!latestPlaybill) {
@@ -54,10 +51,10 @@ async function getActivePlaybill(
     latestPlaybill.acts.map(async (act) => {
       if (act.media.playback.video) {
         const assetId = act.media.playback.video.muxAssetId;
-        return assetDuration(await mux.Video.Assets.get(assetId));
+        return assetDuration(await dataSources.Mux.getAsset(assetId));
       } else if (act.media.playback.audio) {
         const assetId = act.media.playback.audio.muxAssetId;
-        return assetDuration(await mux.Video.Assets.get(assetId));
+        return assetDuration(await dataSources.Mux.getAsset(assetId));
       }
 
       throw new GraphQLError(

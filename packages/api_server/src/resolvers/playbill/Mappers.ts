@@ -61,21 +61,21 @@ export const resolvers: Resolvers = {
   },
 
   MediaPlayback: {
-    async video(parent, _1, { globalContext: { mux } }) {
+    async video(parent, _1, { dataSources }) {
       if (!parent.video) {
         return null;
       }
-      const asset = await mux.Video.Assets.get(parent.video.muxAssetId);
+      const asset = await dataSources.Mux.getAsset(parent.video.muxAssetId);
       return {
         muxPlaybackId: muxPlaybackId(asset),
         duration: assetDuration(asset),
       };
     },
-    async audio(parent, _1, { globalContext: { mux } }) {
+    async audio(parent, _1, { dataSources }) {
       if (!parent.audio) {
         return null;
       }
-      const asset = await mux.Video.Assets.get(parent.audio.muxAssetId);
+      const asset = await dataSources.Mux.getAsset(parent.audio.muxAssetId);
       return {
         muxPlaybackId: muxPlaybackId(asset),
         duration: assetDuration(asset),
