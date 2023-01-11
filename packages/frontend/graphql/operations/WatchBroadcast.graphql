@@ -1,5 +1,39 @@
 subscription WatchBroadcast {
   broadcast {
+    state {
+      active {
+        playbill {
+          startDate
+          acts {
+            type
+            media {
+              title
+              credits {
+                role
+                creator {
+                  name
+                }
+              }
+              outlinks {
+                type
+                uri
+              }
+              playback {
+                video {
+                  muxPlaybackId
+                  duration
+                }
+                audio {
+                  muxPlaybackId
+                  duration
+                }
+              }
+            }
+            whyWeChoseThis
+          }
+        }
+      }
+    }
     event {
       id
       timestamp

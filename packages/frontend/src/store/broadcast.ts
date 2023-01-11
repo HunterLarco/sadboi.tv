@@ -1,33 +1,49 @@
 import {
-  WatchBroadcastDocument,
+  GetBroadcastEventHistoryDocument,
   useGetBroadcastEventHistoryQuery,
   useSendChatMessageMutation,
+  useWatchBroadcastSubscription,
 } from '@generated/graphql/operations';
 import type {
-  WatchBroadcastSubscription,
-  WatchBroadcastSubscriptionVariables,
+  GetBroadcastEventHistoryQuery,
+  GetBroadcastEventHistoryQueryVariables,
 } from '@generated/graphql/operations';
+import { useApolloClient } from '@vue/apollo-composable';
 import cloneDeep from 'clone-deep';
 import { defineStore } from 'pinia';
 import { computed } from 'vue';
 
-export const useBroadcastStore = defineStore('broadcast', () => {
-  const broadcastEventHistoryQuery = useGetBroadcastEventHistoryQuery();
+// type Playbill = WatchBroadcastSubscription['broadcast']['state']['active']['playbill'];
 
-  broadcastEventHistoryQuery.subscribeToMore<
-    WatchBroadcastSubscription,
-    WatchBroadcastSubscriptionVariables
-  >(() => ({
-    document: WatchBroadcastDocument,
-    updateQuery(previousResult, { subscriptionData }) {
-      const newResult = cloneDeep(previousResult);
-      const { event } = subscriptionData.data.broadcast;
-      if (event) {
-        newResult.broadcastEventHistory.events.unshift(event);
-      }
-      return newResult;
-    },
-  }));
+export const useBroadcastStore = defineStore('broadcast', () => {
+  const apolloClient = useApolloClient();
+
+  const broadcastEventHistoryQuery = useGetBroadcastEventHistoryQuery();
+  const watchBroadcastSubscription = useWatchBroadcastSubscription();
+
+  watchBroadcastSubscription.onResult((result) => {
+    if (!result.data) {
+      return;
+    }
+
+    const { state, event } = result.data.broadcast;
+    if (event) {
+      apolloClient.client.cache.writeQuery<
+        GetBroadcastEventHistoryQuery,
+        GetBroadcastEventHistoryQueryVariables
+      >({
+        query: GetBroadcastEventHistoryDocument,
+        data: {
+          broadcastEventHistory: {
+            events: [...events.value, event],
+          },
+        },
+      });
+    }
+    if (state) {
+      console.log('state', state);
+    }
+  });
 
   const events = computed(
     () =>
@@ -36,6 +52,11 @@ export const useBroadcastStore = defineStore('broadcast', () => {
   );
 
   const fetchMoreEvents = async () => {
+    if (broadcastEventHistoryQuery.loading.value) {
+      // Prevent concurrent fetches.
+      return;
+    }
+
     const nextPageCursor =
       broadcastEventHistoryQuery.result.value?.broadcastEventHistory
         .nextPageCursor;
